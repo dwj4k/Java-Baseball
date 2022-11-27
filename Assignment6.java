@@ -1,10 +1,9 @@
-/*
- * Name: Noah Sturgill
- * Date: 11/1/2022
- * CSC 2220 Assignment 5
- * Purpose: To create a working baseball GUI
- */
+//Dalton Jenkins, Jordan Wampler, Noah Sturgill, Nickolas Ryan
+//CSC 2220 group assignment/assignment 6
+//Combining our GUI with the command line baseball game we made in assignment 1
+//12-2-22
 
+//package Baseball;
 import java.awt.EventQueue;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -17,7 +16,8 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
-
+import javax.swing.JTextField;
+import java.awt.Component;
 
 public class Assignment6 {
 	//variable declarations
@@ -27,10 +27,873 @@ public class Assignment6 {
 	private int homePlayerNum = 0;
 	private int homeNumRuns = 0;
 	private int awayNumRuns = 0;
+	private int min = 1;
+	private int max = 6;
+	private Boolean base1 = false;
+	private Boolean base2 = false;
+	private Boolean base3 = false;
+	private JTextField txtBase1;
+	private JTextField txtBase2;
+	private JTextField txtBase3;
+	private JTextField txtHome;
+	
+	//Make JLables
+	JLabel homeTotalHits = new JLabel("");
+	JLabel awayTotalHits = new JLabel("");
+	JLabel homeTotalWalks = new JLabel("");
+	JLabel awayTotalWalks = new JLabel("");
+	JLabel homeTotalRuns = new JLabel("");
+	JLabel awayTotalRuns = new JLabel("");
+	JLabel outs = new JLabel("");
+	
+	//Make JButtons
+	JButton AwayNextButton = new JButton("Next");
+	JButton HomeNextButton = new JButton("Next");
+	JButton startGameButton = new JButton("Start"); //create start and action listener for start
+	
+	//Make ArrayLists
+	ArrayList<JLabel> homePlayers = new ArrayList<JLabel>();//create homePlayers arraylist for homePlayers labels
+	ArrayList<JPanel> homePlayersPanels = new ArrayList<JPanel>();//create arraylist homePlayersPanels home players
+	ArrayList<JLabel> awayPlayers = new ArrayList<JLabel>();//create awayPlayers arraylist for awayPlayers labels
+	ArrayList<JPanel> awayPlayersPanels = new ArrayList<JPanel>();//create arraylist awayPlayersPanels away players
+	ArrayList<JLabel> inningsLabels = new ArrayList<JLabel>();  //create arraylist inningslabels for labels of innings
+	ArrayList<JPanel> innings = new ArrayList<JPanel>(); //create arraylist innings with innings scorepanels
+
+
+	//Function for adding a hit when an appropriate play is generated
+	private void addHit(){
+		
+		if(frameNum % 2 != 0) {//if home frame
+			homePlayers.get(homePlayerNum).setForeground(Color.cyan);
+			homePlayersPanels.get(homePlayerNum).setBackground(Color.black);//set current player to default color and increment to next player
+			homePlayerNum = (homePlayerNum+1) % 9;
+			homePlayers.get(homePlayerNum).setForeground(Color.black);
+			homePlayersPanels.get(homePlayerNum).setBackground(Color.cyan);
+			int tempHits = Integer.valueOf(homeTotalHits.getText());
+			tempHits++;//add to home hits and update for home team
+			homeTotalHits.setText(String.valueOf(tempHits));
+		}
+		
+		else{//otherwise away frame
+			awayPlayers.get(awayPlayerNum).setForeground(Color.cyan);
+			awayPlayersPanels.get(awayPlayerNum).setBackground(Color.black);//set current player to default color and increment to next player
+			awayPlayerNum = (awayPlayerNum+1) % 9;
+			awayPlayers.get(awayPlayerNum).setForeground(Color.black);
+			awayPlayersPanels.get(awayPlayerNum).setBackground(Color.cyan);
+			int tempHits = Integer.valueOf(awayTotalHits.getText());
+			tempHits++;//add to away hits and update for away team
+			awayTotalHits.setText(String.valueOf(tempHits));
+		}
+	}
+	
+	//Function for adding a walk when an appropriate play is generated
+	private void addWalk(){
+		
+		if(frameNum % 2 != 0) {//if home inning
+			homePlayers.get(homePlayerNum).setForeground(Color.cyan);
+			homePlayersPanels.get(homePlayerNum).setBackground(Color.black);//set current player to default color and increment to next player
+			homePlayerNum = (homePlayerNum+1) % 9;
+			homePlayers.get(homePlayerNum).setForeground(Color.black);
+			homePlayersPanels.get(homePlayerNum).setBackground(Color.cyan);
+			int tempWalks = Integer.valueOf(homeTotalWalks.getText());
+			tempWalks++;//add to home walks and update for home team
+			homeTotalWalks.setText(String.valueOf(tempWalks));
+		}
+		else
+		{//otherwise away inning
+			awayPlayers.get(awayPlayerNum).setForeground(Color.cyan);
+			awayPlayersPanels.get(awayPlayerNum).setBackground(Color.black);//set current player to default color and increment to next player
+			awayPlayerNum = (awayPlayerNum+1) % 9;
+			awayPlayers.get(awayPlayerNum).setForeground(Color.black);
+			awayPlayersPanels.get(awayPlayerNum).setBackground(Color.cyan);
+			int tempWalks = Integer.valueOf(awayTotalWalks.getText());
+			tempWalks++;//add to away walks and update for away team
+			awayTotalWalks.setText(String.valueOf(tempWalks));
+			
+			
+		}
+	}
+	
+	//Function for adding a run when an appropriate play is generated
+	private void addRun(){
+		
+		if(frameNum % 2 != 0) {// if home half-innning
+			try {//try catch for adding first run
+			int runsInInning = Integer.valueOf(inningsLabels.get(frameNum).getText());//increment runs in half-inning 
+			runsInInning++;
+			inningsLabels.get(frameNum).setText(String.valueOf(runsInInning));
+			}
+			catch(Exception E){
+				inningsLabels.get(frameNum).setText("1");
+				inningsLabels.get(frameNum).setForeground(Color.black);//if first run set runs to one and text color to black
+			}
+			homeNumRuns++;//increment and update home total runs
+			homeTotalRuns.setText(String.valueOf(homeNumRuns));
+		}
+		else
+		{//if away half-inning
+			try {//try catch for adding first run
+				int runsInInning = Integer.valueOf(inningsLabels.get(frameNum).getText());//increment runs in half-inning
+				runsInInning++;
+				inningsLabels.get(frameNum).setText(String.valueOf(runsInInning));
+				}
+				catch(Exception E){
+					inningsLabels.get(frameNum).setText("1");
+					inningsLabels.get(frameNum).setForeground(Color.black);//if first run set runs to one and text color to black
+				}
+			awayNumRuns++;
+			awayTotalRuns.setText(String.valueOf(awayNumRuns));//increment away total runs
+		}
+
+	}
+	
+	//Function for adding an out when an appropriate play is generated
+	private void addOut(){
+	
+		int tempOuts = Integer.valueOf(outs.getText());
+		tempOuts++;//get value of outs and then increment value
+		if (tempOuts == 3) {//if outs is three
+			frameNum++;//increment inning
+			if (frameNum==18) {//if game is over
+				outs.setText("0");//set outs to zero
+				if(inningsLabels.get((frameNum-1)).getText() == ""){
+					inningsLabels.get((frameNum-1)).setText("0");//if no runs scored in inning set value to zero
+				}
+				homePlayers.get(homePlayerNum).setForeground(Color.cyan);//set colors for last player back to default
+				homePlayersPanels.get(homePlayerNum).setBackground(Color.black);
+				innings.get((frameNum-1)).setBackground(Color.black);
+				inningsLabels.get((frameNum-1)).setForeground(Color.cyan);//set last frame to default color
+			}
+			else if(frameNum % 2 != 0) {//if inning not over and away team
+				innings.get((frameNum-1)).setBackground(Color.black);//set last frame back to default
+				inningsLabels.get((frameNum-1)).setForeground(Color.cyan);
+				if(inningsLabels.get((frameNum-1)).getText() == ""){
+					inningsLabels.get((frameNum-1)).setText("0");//if no runs set runs to zero
+				}
+				
+				outs.setText("0");//set outs to zero for next inning
+				base1 = false;
+				base2 = false;
+				base3 = false;
+				awayPlayersPanels.get(awayPlayerNum).setBackground(Color.black);
+				awayPlayers.get(awayPlayerNum).setForeground(Color.cyan);//set current away playyer to default and increment
+				awayPlayerNum = (awayPlayerNum+1) % 9;
+				homePlayersPanels.get(homePlayerNum).setBackground(Color.cyan);
+				homePlayers.get(homePlayerNum).setForeground(Color.black);//set active away player
+				innings.get(frameNum).setBackground(Color.cyan);
+				inningsLabels.get((frameNum)).setForeground(Color.black);
+			}
+			else {
+				if(inningsLabels.get((frameNum-1)).getText() == ""){
+					inningsLabels.get((frameNum-1)).setText("0");//if no runs scored in inning set value to zero
+				}
+				outs.setText("0");//set outs to zero
+				base1 = false;
+				base2 = false;
+				base3 = false;
+				innings.get((frameNum-1)).setBackground(Color.black);//set inning back to default
+				inningsLabels.get((frameNum-1)).setForeground(Color.cyan);
+				homePlayersPanels.get(homePlayerNum).setBackground(Color.black);
+				homePlayers.get(homePlayerNum).setForeground(Color.cyan);//set home player back to default and increment
+				homePlayerNum = (homePlayerNum+1) % 9;
+				awayPlayersPanels.get(awayPlayerNum).setBackground(Color.cyan);
+				awayPlayers.get(awayPlayerNum).setForeground(Color.black);//set active away player and inning
+				innings.get(frameNum).setBackground(Color.cyan);
+				inningsLabels.get((frameNum)).setForeground(Color.black);
+			}	
+		}
+		else {//if adding an out and inning not over
+			outs.setText(String.valueOf(tempOuts));//set outs to new value
+			if (frameNum % 2 != 0) {//if home half-inning
+				homePlayers.get(homePlayerNum).setForeground(Color.cyan);//set current player to default colors and increment to next
+				homePlayersPanels.get(homePlayerNum).setBackground(Color.black);
+				homePlayerNum = (homePlayerNum+1) % 9;
+				homePlayers.get(homePlayerNum).setForeground(Color.black);
+				homePlayersPanels.get(homePlayerNum).setBackground(Color.cyan);
+			}
+			else {//for away half-inning
+				awayPlayers.get(awayPlayerNum).setForeground(Color.cyan);//set current player to default colors and increment to next
+				awayPlayersPanels.get(awayPlayerNum).setBackground(Color.black);
+				awayPlayerNum = (awayPlayerNum+1) % 9;
+				awayPlayers.get(awayPlayerNum).setForeground(Color.black);
+				awayPlayersPanels.get(awayPlayerNum).setBackground(Color.cyan);
+			}
+		}
+	}
+	
+	//Function that generates the next play, and then updates scores/field values accordingly
+	public void next() {
+		
+		//Generate two random ints for play generation
+		int n1 = (int)Math.floor(Math.random()*(max-min+1)+min);
+		int n2 = (int)Math.floor(Math.random()*(max-min+1)+min);
+		
+		Play p = playResult(n1, n2);//Call play result to return which play the random ints represent
+		System.out.println(n1 + " " + n2 + " " + p);//Prints playResult to console 
+		
+		//Switch statement, switch on which play has been generated, carry out correct steps for each play
+		switch(p){
+		
+		//HOMER case
+		case HOMER:
+			
+			addHit(); //Always results in a hit
+			
+			
+			//HOMER clears any bases, adds one run for batter, and one run per occupied base
+			if(base3 == false && base2 == false && base1 == false) {//No bases occupied 
+				
+				addRun();
+			}
+			
+			else if(base3 == true && base2 == false && base1 == false) {//Only 3rd base occupied 
+				
+				base3 = false;
+				addRun();
+				addRun();
+			}
+			
+			else if(base3 == false && base2 == true && base1 == false) {//Only 2nd base occupied
+				
+				base2 = false;
+				addRun();
+				addRun();
+			}
+			
+			else if(base3 == false && base2 == false && base1 == true) {//Only 1st base occupied 
+				
+				base1 = false;
+				addRun();
+				addRun();
+			}
+			
+			else if(base3 == true && base2 == true && base1 == false) {//2nd and 3rd bases occupied
+				
+				base3 = false;
+				base2 = false;
+				addRun();
+				addRun();
+				addRun();
+			}
+			
+			else if(base3 == true && base2 == false && base1 == true) {//1st and 3rd bases occupied
+				
+				base3 = false;
+				base1 = false;
+				addRun();
+				addRun();
+				addRun();
+			}
+			
+			else if(base3 == false && base2 == true && base1 == true) {//1st and 2nd bases occupied
+				
+				base2 = false;
+				base1 = false;
+				addRun();
+				addRun();
+				addRun();
+			}
+			
+			else if(base3 == true && base2 == true && base1 == true) {//Bases loaded
+				
+				base3 = false;
+				base2 = false;
+				base1 = false;
+				addRun();
+				addRun();
+				addRun();
+				addRun();
+			}
+		
+		break;
+
+		//SINGLE case
+		case SINGLE:
+			
+			addHit();//Always results in a hit
+			
+			//SINGLE shifts all bases runners by 1, if a runner is on 3rd a run will occur
+			if(base3 == false && base2 == false && base1 == false) {//Bases empty
+				
+				base1 = true;
+			}
+			
+			else if(base3 == true && base2 == false && base1 == false) {//3rd occupied
+				
+				base3 = false;
+				addRun();
+				base1 = true;
+			}
+			
+			else if(base3 == false && base2 == true && base1 == false) {//2nd occupied
+				
+				base2 = false;
+				base3 = true;
+				base1 = true;
+			}
+			
+			else if(base3 == false && base2 == false && base1 == true) {//1st occupied
+				
+				base2 = true;
+			}
+			
+			else if(base3 == true && base2 == true && base1 == false) {//2nd and 3rd occupied
+				
+				base2 = false;
+				base1 = true;
+				addRun();
+			}
+			
+			else if(base3 == true && base2 == false && base1 == true) {//1st and 3rd occupied
+				
+				base3 = false;
+				base2 = true;
+				addRun();
+			}
+			
+			else if(base3 == false && base2 == true && base1 == true) {//1st and 2nd occupied 
+				
+				base3 = true;
+			}
+			
+			else if(base3 == true && base2 == true && base1 == true) {//bases loaded
+				
+				addRun();
+			}
+			
+		break;
+		
+		//DOUBLE case	
+		case DOUBLE:
+			
+			addHit();//Always results in a hit
+			
+			//Shifts all bases runners by 2, if a runner is on 2nd or 3rd a run will occur 
+			if(base3 == false && base2 == false && base1 == false) {//bases empty
+				
+				base2 = true;
+			}
+			
+			else if(base3 == true && base2 == false && base1 == false) {//3rd occupied
+				
+				base3 = false;
+				base2 = true;
+				addRun();
+			}
+			
+			else if(base3 == false && base2 == true && base1 == false) {//2nd occupied
+				
+				addRun();
+			}
+			
+			else if(base3 == false && base2 == false && base1 == true) {//1st occupied
+				
+				base3 = true;
+				base2 = true;
+				base1 = false;
+			}
+			
+			else if(base3 == true && base2 == true && base1 == false) {//2nd and 3rd occupied
+				
+				base3 = false;
+				addRun();
+				addRun();
+			}
+			
+			else if(base3 == true && base2 == false && base1 == true) {//1st and 3rd occupied
+				
+				base1 = false;
+				base2 = true;
+				addRun();
+			}
+			
+			else if(base3 == false && base2 == true && base1 == true) {//1st and 2nd occupied
+				
+				base1 = false;
+				base3 = true;
+				addRun();
+			}
+			
+			else if(base3 == true && base2 == true && base1 == true) {//bases loaded
+				
+				base1 = false;
+				addRun();
+				addRun();
+			}
+			
+		break;	
+		
+		//TRIPLE case
+		case TRIPLE:
+			
+			addHit();//always results in a hit
+			
+			//Shifts bases runners by 3, any base occupied before play will be a run
+			if(base3 == false && base2 == false && base1 == false) {//bases empty
+				
+				base3 = true;
+			}
+			
+			else if(base3 == true && base2 == false && base1 == false) {//3rd occupied
+				
+				addRun();
+			}
+			
+			else if(base3 == false && base2 == true && base1 == false) {//2nd occupied
+				
+				base3 = true;
+				base2 = false;
+				addRun();
+			}
+			
+			else if(base3 == false && base2 == false && base1 == true) {//1st occupied
+				
+				base3 = true;
+				base1 = false;
+				addRun();
+			}
+			
+			else if(base3 == true && base2 == true && base1 == false) {//2nd and 3rd occupied
+				
+				base2 = false;
+				addRun();
+				addRun();
+			}
+			
+			else if(base3 == true && base2 == false && base1 == true) {//1st and 3rd occupied
+				
+				base1 = false;
+				addRun();
+				addRun();
+			}
+			
+			else if(base3 == false && base2 == true && base1 == true) {//1st and 2nd occupied
+				
+				base3 = true;
+				base2 = false;
+				base1 = false;
+				addRun();
+				addRun();
+			}
+			
+			else if(base3 == true && base2 == true && base1 == true) {//bases loaded
+				
+				base2 = false;
+				base1 = false;
+				addRun();
+				addRun();
+				addRun();
+			}
+			
+		break;
+		
+		//POPOUT case
+		case POPOUT:
+			
+			addOut();//Only outcome possible is adding an out 
+			
+		break;	
+	
+		//GROUNDOUT case	
+		case GROUNDOUT:
+			
+			if(base3 == false && base2 == false && base1 == false) {//bases empty
+				
+				addOut();
+			}
+			
+			else if(base3 == true && base2 == false && base1 == false) {//3rd occupied
+				
+				base3 = false;
+				base1 = true;
+				addOut();
+			}
+			
+			else if(base3 == false && base2 == true && base1 == false) {//2nd occupied
+				
+				base2 = false;
+				base1 = true;
+				addOut();
+			}
+			
+			else if(base3 == false && base2 == false && base1 == true) {//1st occupied 
+				
+				addOut();
+			}
+			
+			else if(base3 == true && base2 == true && base1 == false) {//2nd and 3rd occupied
+				
+				base2 = false;
+				base1 = true;
+				addOut();
+			}
+			
+			else if(base3 == true && base2 == false && base1 == true) {//1st and 3rd occupied
+				
+				base3 = false;
+				base2 = true;
+				addOut();
+			}
+			
+			else if(base3 == false && base2 == true && base1 == true) {//1st and 2nd occupied
+				
+				addOut();
+			}
+			
+			else if(base3 == true && base2 == true && base1 == true) {//bases loaded
+				
+				addOut();
+			}
+			
+		break;	
+			
+		//STRIKEOUT case
+		case STRIKEOUT:
+			
+			addOut();//Only possible outcome is adding an out 
+			
+		break;
+			
+		//FLYOUT case
+		case FLYOUT:
+			
+			addOut();//Only possible outcome is adding an out 
+			
+		break;
+		 	
+		//SACFLY case
+		case SACFLY:
+			
+			if(base3 == false && base2 == false && base1 == false) {
+				
+				
+			}
+			
+			else if(base3 == true && base2 == false && base1 == false) {
+				
+
+			}
+			
+			else if(base3 == false && base2 == true && base1 == false) {
+				
+
+			}
+			
+			else if(base3 == false && base2 == false && base1 == true) {
+				
+
+			}
+			
+			else if(base3 == true && base2 == true && base1 == false) {
+				
+
+			}
+			
+			else if(base3 == true && base2 == false && base1 == true) {
+				
+				
+			}
+			
+			else if(base3 == false && base2 == true && base1 == true) {
+				
+
+			}
+			
+			else if(base3 == true && base2 == true && base1 == true) {
+				
+
+			}
+			
+		break;
+		
+		case DOUBLEPLAY:
+			
+			if(base3 == false && base2 == false && base1 == false) {
+				
+				
+			}
+			
+			else if(base3 == true && base2 == false && base1 == false) {
+				
+
+			}
+			
+			else if(base3 == false && base2 == true && base1 == false) {
+				
+
+			}
+			
+			else if(base3 == false && base2 == false && base1 == true) {
+				
+
+			}
+			
+			else if(base3 == true && base2 == true && base1 == false) {
+				
+
+			}
+			
+			else if(base3 == true && base2 == false && base1 == true) {
+				
+				
+			}
+			
+			else if(base3 == false && base2 == true && base1 == true) {
+				
+
+			}
+			
+			else if(base3 == true && base2 == true && base1 == true) {
+				
+
+			}
+			
+		break;
+		
+		//WALK case
+		case WALK:
+			
+			addWalk();//Always results in adding a walk
+			
+			//WALK shifts all bases runners by 1, loaded bases will create a run 
+			if(base3 == false && base2 == false && base1 == false) {//bases empty
+				
+				base1 = true;
+			}
+			
+			else if(base3 == true && base2 == false && base1 == false) {//3rd is occupied
+				
+				base1 = true;
+			}
+			
+			else if(base3 == false && base2 == true && base1 == false) {//2nd is occupied
+				
+				base1 = true;
+			}
+			
+			else if(base3 == false && base2 == false && base1 == true) {//1st is occupied
+				
+				base2 = true;
+			}
+			
+			else if(base3 == true && base2 == true && base1 == false) {//2nd and 3rd are occupied
+				
+				base1 = true;
+			}
+			
+			else if(base3 == true && base2 == false && base1 == true) {//1st and 3rd occupied
+				
+				base2 = true;
+			}
+			
+			else if(base3 == false && base2 == true && base1 == true) {//1st and 2nd occupied
+				
+				base3 = true;
+			}
+			
+			else if(base3 == true && base2 == true && base1 == true) {//bases loaded
+				
+				addRun();
+			}
+			
+			break;					
+		}
+		
+		//These if/else statements make the bases change colors depending on whether or not they are true 
+		if(base1 == true) {//1st base
+			
+			txtBase1.setBackground(Color.CYAN);
+		}
+		
+		else {
+			
+			txtBase1.setBackground(Color.BLACK);
+		}
+		
+		if(base2 == true) {//2nd base
+			
+			txtBase2.setBackground(Color.CYAN);				
+		}
+		
+		else {
+			
+			txtBase2.setBackground(Color.BLACK);
+		}
+		
+		if(base3 == true) {//3rd base
+			
+			txtBase3.setBackground(Color.CYAN);				
+		}
+		
+		else {
+			
+			txtBase3.setBackground(Color.BLACK);
+		}
+	}
+	
+	//Enumerated type for the play results
+    enum Play{
+
+        SINGLE, DOUBLE, TRIPLE, HOMER, WALK, FLYOUT, STRIKEOUT, 
+        GROUNDOUT, SACFLY, POPOUT, DOUBLEPLAY, NONE
+    };
+
+    //Initialize rollResult
+    Play rollResult = Play.NONE;
+    
+    //Play result functions takes the random ints as args and returns the correct play
+    public static Play playResult(int n1, int n2){
+        
+        Play rollResult = Play.NONE;//Initialize rollResult
+        int swapVariable; //Swap dice values if n1 is bigger than n2 
+        
+        if(n1 > n2){
+            
+            swapVariable = n1;
+            n1 = n2;
+            n2 = swapVariable;
+        }
+        
+        	//switch statement, compares random ints to choose correct play
+            switch(n1){
+            
+            case 1://n1 = 1
+
+                if (n2 == 1){
+                    
+                    rollResult = Play.HOMER;
+                }
+
+                else if (n2 == 2){
+                    
+                    rollResult = Play.DOUBLE;
+                }
+
+                else if (n2 == 3){
+                    
+                    rollResult = Play.FLYOUT;
+                }
+
+                else if (n2 == 4){
+                    
+                    rollResult = Play.WALK;
+                }
+
+                else if (n2 == 5){
+                    
+                    rollResult = Play.POPOUT;
+                }
+
+                else if (n2 == 6){
+                    
+                    rollResult = Play.SINGLE;
+                }
+                
+            break;
+
+            case 2://n1 = 2
+
+                if (n2 == 2){
+                    
+                    rollResult = Play.DOUBLEPLAY;
+                }
+
+                else if (n2 == 3){
+                    
+                    rollResult = Play.GROUNDOUT;
+                }
+
+                else if (n2 == 4){
+                    
+                    rollResult = Play.STRIKEOUT;
+                }
+
+                else if (n2 == 5){
+                    
+                    rollResult = Play.SINGLE;
+                }
+
+                else if (n2 == 6){
+                    
+                    rollResult = Play.STRIKEOUT;
+                }    
+
+            break;
+
+            case 3://n1 = 3
+
+                if (n2 == 3){
+                    
+                    rollResult = Play.WALK;
+                }
+
+                else if (n2 == 4){
+                    
+                    rollResult = Play.TRIPLE;
+                }
+
+                else if (n2 == 5){
+                    
+                    rollResult = Play.GROUNDOUT;
+                }
+
+                else if (n2 == 6){
+                    
+                    rollResult = Play.FLYOUT;
+                }
+
+            break;
+
+            case 4://n1 = 4 
+
+                if (n2 == 4){
+                    
+                    rollResult = Play.WALK;
+                }
+
+                else if (n2 == 5){
+                    
+                    rollResult = Play.POPOUT;
+                }
+
+                else if (n2 == 6){
+                    
+                    rollResult = Play.STRIKEOUT;
+                }
+
+            break;
+
+            case 5://n1 = 5
+
+                if (n2 == 5){
+                    
+                    rollResult = Play.DOUBLE;
+                }
+
+                else if (n2 == 6){
+                    
+                    rollResult = Play.SACFLY;
+                }
+
+            break;
+
+            case 6://n1 = 6
+
+                if (n2 == 6){
+                    
+                    rollResult = Play.HOMER;    
+                }
+
+            break;
+        }
+
+        return rollResult;
+    }
+	
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) {		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -54,7 +917,8 @@ public class Assignment6 {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		//start of frame creations. Go to line 859 to see the rest of handwritten code
+		
+		//start of frame creations
 		frame = new JFrame();
 		frame.setBounds(100, 100, 819, 609);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -438,7 +1302,6 @@ public class Assignment6 {
 		awayTotalWalksPanel.setBounds(568, 20, 20, 20);
 		scoreboardPanel.add(awayTotalWalksPanel);
 		
-		JLabel awayTotalWalks = new JLabel("");
 		awayTotalWalks.setHorizontalAlignment(SwingConstants.CENTER);
 		awayTotalWalks.setForeground(Color.CYAN);
 		awayTotalWalks.setBounds(0, 0, 20, 20);
@@ -451,7 +1314,6 @@ public class Assignment6 {
 		homeTotalWalksPanel.setBounds(568, 40, 20, 20);
 		scoreboardPanel.add(homeTotalWalksPanel);
 		
-		JLabel homeTotalWalks = new JLabel("");
 		homeTotalWalks.setHorizontalAlignment(SwingConstants.CENTER);
 		homeTotalWalks.setForeground(Color.CYAN);
 		homeTotalWalks.setBounds(0, 0, 20, 20);
@@ -476,7 +1338,6 @@ public class Assignment6 {
 		awayTotalHitsPanel.setBounds(538, 20, 20, 20);
 		scoreboardPanel.add(awayTotalHitsPanel);
 		
-		JLabel awayTotalHits = new JLabel("");
 		awayTotalHits.setHorizontalAlignment(SwingConstants.CENTER);
 		awayTotalHits.setForeground(Color.CYAN);
 		awayTotalHits.setBounds(0, 0, 20, 20);
@@ -489,7 +1350,6 @@ public class Assignment6 {
 		homeTotalHitsPanel.setBounds(538, 40, 20, 20);
 		scoreboardPanel.add(homeTotalHitsPanel);
 		
-		JLabel homeTotalHits = new JLabel("");
 		homeTotalHits.setHorizontalAlignment(SwingConstants.CENTER);
 		homeTotalHits.setForeground(Color.CYAN);
 		homeTotalHits.setBounds(0, 0, 20, 20);
@@ -514,7 +1374,6 @@ public class Assignment6 {
 		awayTotalRunsPanel.setBounds(508, 20, 20, 20);
 		scoreboardPanel.add(awayTotalRunsPanel);
 		
-		JLabel awayTotalRuns = new JLabel("");
 		awayTotalRuns.setHorizontalAlignment(SwingConstants.CENTER);
 		awayTotalRuns.setForeground(Color.CYAN);
 		awayTotalRuns.setBounds(0, 0, 20, 20);
@@ -527,7 +1386,6 @@ public class Assignment6 {
 		homeTotalRunsPanel.setBounds(508, 40, 20, 20);
 		scoreboardPanel.add(homeTotalRunsPanel);
 		
-		JLabel homeTotalRuns = new JLabel("");
 		homeTotalRuns.setHorizontalAlignment(SwingConstants.CENTER);
 		homeTotalRuns.setForeground(Color.CYAN);
 		homeTotalRuns.setBounds(0, 0, 20, 20);
@@ -563,7 +1421,6 @@ public class Assignment6 {
 		outsPanel.setBounds(660, 30, 40, 30);
 		scoreboardPanel.add(outsPanel);
 		
-		JLabel outs = new JLabel("");
 		outs.setHorizontalAlignment(SwingConstants.CENTER);
 		outs.setFont(new Font("Tahoma", Font.BOLD, 12));
 		outs.setBounds(0, 0, 40, 30);
@@ -835,35 +1692,13 @@ public class Assignment6 {
 		homePlayer9.setBounds(0, 0, 160, 20);
 		homePlayer9Panel.add(homePlayer9);
 		
-		JButton addHitButton = new JButton("Add a Hit");
-		addHitButton.setEnabled(false);
-		addHitButton.setBounds(105, 541, 95, 21);
-		frame.getContentPane().add(addHitButton);
+		//Here begins more handwritten code
 		
-		JButton addRunButton = new JButton("Add a Run");
-		addRunButton.setEnabled(false);
-		addRunButton.setBounds(10, 541, 95, 21);
-		frame.getContentPane().add(addRunButton);
-		
-		JButton addWalkButton = new JButton("Add a Walk");
-		addWalkButton.setEnabled(false);
-		addWalkButton.setBounds(200, 541, 95, 21);
-		frame.getContentPane().add(addWalkButton);
-		
-		
-		JButton addOutButton = new JButton("Add an Out");
-		addOutButton.setEnabled(false);
-		addOutButton.setBounds(368, 541, 111, 21);
-		frame.getContentPane().add(addOutButton);
-	
-		JButton startGameButton = new JButton("Start"); //create start and action listener for start
+		//start game button begins the game, then disables itself
 		startGameButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addHitButton.setEnabled(true); //set other buttons enabled and disable start button
-				addWalkButton.setEnabled(true);
-				addRunButton.setEnabled(true);
+				
 				startGameButton.setEnabled(false);
-				addOutButton.setEnabled(true);
 				outs.setText("0");//set text and colors for tracking boxes
 				outs.setForeground(Color.cyan);
 				homeTotalRuns.setText("0");
@@ -881,12 +1716,13 @@ public class Assignment6 {
 				awayPlayer1Panel.setBackground(Color.cyan);//set away player colors and scorepanel colors
 				awayPlayer1.setForeground(Color.black);
 				awayScorePanel1.setBackground(Color.cyan);
+				HomeNextButton.setEnabled(false);
+				HomeNextButton.setVisible(false);
 			}
 		});
-		startGameButton.setBounds(615, 541, 85, 21);
+		startGameButton.setBounds(307, 543, 85, 21);
 		frame.getContentPane().add(startGameButton);
 		
-		ArrayList<JPanel> innings = new ArrayList<JPanel>(); //create arraylist innings with innings scorepanels
 		innings.add(awayScorePanel1);//add elements to arraylist
 		innings.add(homeScorePanel1);
 		innings.add(awayScorePanel2);
@@ -906,7 +1742,6 @@ public class Assignment6 {
 		innings.add(awayScorePanel9);
 		innings.add(homeScorePanel9);
 		
-		ArrayList<JLabel> inningsLabels = new ArrayList<JLabel>();  //create arraylist inningslabels for labels of innings
 		inningsLabels.add(awayInning1);//add elements to arraylist
 		inningsLabels.add(homeInning1);
 		inningsLabels.add(awayInning2);
@@ -926,7 +1761,6 @@ public class Assignment6 {
 		inningsLabels.add(awayInning9);
 		inningsLabels.add(homeInning9);
 		
-		ArrayList<JPanel> homePlayersPanels = new ArrayList<JPanel>();//create arraylist homePlayersPanels home players
 		homePlayersPanels.add(homePlayer1Panel);//add elements to arraylist
 		homePlayersPanels.add(homePlayer2Panel);
 		homePlayersPanels.add(homePlayer3Panel);
@@ -937,7 +1771,6 @@ public class Assignment6 {
 		homePlayersPanels.add(homePlayer8Panel);
 		homePlayersPanels.add(homePlayer9Panel);
 		
-		ArrayList<JPanel> awayPlayersPanels = new ArrayList<JPanel>();//create arraylist awayPlayersPanels away players
 		awayPlayersPanels.add(awayPlayer1Panel);//add elements to arraylist
 		awayPlayersPanels.add(awayPlayer2Panel);
 		awayPlayersPanels.add(awayPlayer3Panel);
@@ -948,7 +1781,6 @@ public class Assignment6 {
 		awayPlayersPanels.add(awayPlayer8Panel);
 		awayPlayersPanels.add(awayPlayer9Panel);
 		
-		ArrayList<JLabel> homePlayers = new ArrayList<JLabel>();//create homePlayers arraylist for homePlayers labels
 		homePlayers.add(homePlayer1);//add elements to arraylist
 		homePlayers.add(homePlayer2);
 		homePlayers.add(homePlayer3);
@@ -959,7 +1791,6 @@ public class Assignment6 {
 		homePlayers.add(homePlayer8);
 		homePlayers.add(homePlayer9);
 		
-		ArrayList<JLabel> awayPlayers = new ArrayList<JLabel>();//create awayPlayers arraylist for awayPlayers labels
 		awayPlayers.add(awayPlayer1);//add elements to arraylist
 		awayPlayers.add(awayPlayer2);
 		awayPlayers.add(awayPlayer3);
@@ -970,172 +1801,101 @@ public class Assignment6 {
 		awayPlayers.add(awayPlayer8);
 		awayPlayers.add(awayPlayer9);
 		
-		addOutButton.addActionListener(new ActionListener() {//add action listener for out button
+		//Setting up some more panels and text fields
+		JPanel panel = new JPanel();
+		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		panel.setBackground(new Color(0, 100, 0));
+		panel.setBounds(202, 92, 401, 188);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		txtBase1 = new JTextField();
+		txtBase1.setHorizontalAlignment(SwingConstants.CENTER);
+		txtBase1.setText("B1");
+		txtBase1.setForeground(Color.CYAN);
+		txtBase1.setBackground(Color.BLACK);
+		txtBase1.setBounds(280, 60, 76, 46);
+		panel.add(txtBase1);
+		txtBase1.setColumns(10);
+		
+		txtBase2 = new JTextField();
+		txtBase2.setText("B2");
+		txtBase2.setHorizontalAlignment(SwingConstants.CENTER);
+		txtBase2.setForeground(Color.CYAN);
+		txtBase2.setColumns(10);
+		txtBase2.setBackground(Color.BLACK);
+		txtBase2.setBounds(152, 6, 76, 46);
+		panel.add(txtBase2);
+		
+		txtBase3 = new JTextField();
+		txtBase3.setText("B3");
+		txtBase3.setHorizontalAlignment(SwingConstants.CENTER);
+		txtBase3.setForeground(Color.CYAN);
+		txtBase3.setColumns(10);
+		txtBase3.setBackground(Color.BLACK);
+		txtBase3.setBounds(43, 60, 76, 46);
+		panel.add(txtBase3);
+		
+		txtHome = new JTextField();
+		txtHome.setText("Home");
+		txtHome.setHorizontalAlignment(SwingConstants.CENTER);
+		txtHome.setForeground(Color.CYAN);
+		txtHome.setColumns(10);
+		txtHome.setBackground(Color.BLACK);
+		txtHome.setBounds(152, 136, 76, 46);
+		panel.add(txtHome);
+		
+		//Away next button only appears when it is the away half-inning, it calls the next function
+		AwayNextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			int tempOuts = Integer.valueOf(outs.getText());
-			tempOuts++;//get value of outs and then increment value
-			if (tempOuts == 3) {//if outs is three
-				frameNum++;//increment inning
-				if (frameNum==18) {//if game is over
-					outs.setText("0");//set outs to zero
-					if(inningsLabels.get((frameNum-1)).getText() == ""){
-						inningsLabels.get((frameNum-1)).setText("0");//if no runs scored in inning set value to zero
-					}
-					homePlayers.get(homePlayerNum).setForeground(Color.cyan);//set colors for last player back to default
-					homePlayersPanels.get(homePlayerNum).setBackground(Color.black);
-					innings.get((frameNum-1)).setBackground(Color.black);
-					inningsLabels.get((frameNum-1)).setForeground(Color.cyan);//set last frame to default color
-					addHitButton.setEnabled(false);
-					addWalkButton.setEnabled(false);//disable the buttons
-					addRunButton.setEnabled(false);
-					addOutButton.setEnabled(false);
-				}
-				else if(frameNum % 2 != 0) {//if inning not over and away team
-					innings.get((frameNum-1)).setBackground(Color.black);//set last frame back to default
-					inningsLabels.get((frameNum-1)).setForeground(Color.cyan);
-					if(inningsLabels.get((frameNum-1)).getText() == ""){
-						inningsLabels.get((frameNum-1)).setText("0");//if no runs set runs to zero
-					}
-					outs.setText("0");//set outs to zero for next inning
-					awayPlayersPanels.get(awayPlayerNum).setBackground(Color.black);
-					awayPlayers.get(awayPlayerNum).setForeground(Color.cyan);//set current away playyer to default and increment
-					awayPlayerNum = (awayPlayerNum+1) % 9;
-					homePlayersPanels.get(homePlayerNum).setBackground(Color.cyan);
-					homePlayers.get(homePlayerNum).setForeground(Color.black);//set active away player
-					innings.get(frameNum).setBackground(Color.cyan);
-					inningsLabels.get((frameNum)).setForeground(Color.black);
+
+				next();//call next
+				
+				//disable and hide one button while enabling and showing the other
+				if(frameNum % 2 != 0) {
+					
+					AwayNextButton.setEnabled(false);
+					AwayNextButton.setVisible(false);
+					HomeNextButton.setEnabled(true);
+					HomeNextButton.setVisible(true);
 				}
 				else {
-					if(inningsLabels.get((frameNum-1)).getText() == ""){
-						inningsLabels.get((frameNum-1)).setText("0");//if no runs scored in inning set value to zero
-					}
-					outs.setText("0");//set outs to zero
-					innings.get((frameNum-1)).setBackground(Color.black);//set inning back to default
-					inningsLabels.get((frameNum-1)).setForeground(Color.cyan);
-					homePlayersPanels.get(homePlayerNum).setBackground(Color.black);
-					homePlayers.get(homePlayerNum).setForeground(Color.cyan);//set home player back to default and increment
-					homePlayerNum = (homePlayerNum+1) % 9;
-					awayPlayersPanels.get(awayPlayerNum).setBackground(Color.cyan);
-					awayPlayers.get(awayPlayerNum).setForeground(Color.black);//set active away player and inning
-					innings.get(frameNum).setBackground(Color.cyan);
-					inningsLabels.get((frameNum)).setForeground(Color.black);
-				}	
-			}
-			else {//if adding an out and inning not over
-				outs.setText(String.valueOf(tempOuts));//set outs to new value
-				if (frameNum % 2 != 0) {//if home half-inning
-					homePlayers.get(homePlayerNum).setForeground(Color.cyan);//set current player to default colors and increment to next
-					homePlayersPanels.get(homePlayerNum).setBackground(Color.black);
-					homePlayerNum = (homePlayerNum+1) % 9;
-					homePlayers.get(homePlayerNum).setForeground(Color.black);
-					homePlayersPanels.get(homePlayerNum).setBackground(Color.cyan);
+
+					AwayNextButton.setEnabled(true);
+					AwayNextButton.setVisible(true);
+					HomeNextButton.setEnabled(false);
+					HomeNextButton.setVisible(false);
 				}
-				else {//for away half-inning
-					awayPlayers.get(awayPlayerNum).setForeground(Color.cyan);//set current player to default colors and increment to next
-					awayPlayersPanels.get(awayPlayerNum).setBackground(Color.black);
-					awayPlayerNum = (awayPlayerNum+1) % 9;
-					awayPlayers.get(awayPlayerNum).setForeground(Color.black);
-					awayPlayersPanels.get(awayPlayerNum).setBackground(Color.cyan);
-				}
-			}
-				
-				
 			}
 		});
-		
-		addRunButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {//add run action listener
-				if(frameNum % 2 != 0) {// if home half-innning
-					try {//try catch for adding first run
-					int runsInInning = Integer.valueOf(inningsLabels.get(frameNum).getText());//increment runs in half-inning 
-					runsInInning++;
-					inningsLabels.get(frameNum).setText(String.valueOf(runsInInning));
-					}
-					catch(Exception E){
-						inningsLabels.get(frameNum).setText("1");
-						inningsLabels.get(frameNum).setForeground(Color.black);//if first run set runs to one and text color to black
-					}
-					homeNumRuns++;//increment and update home total runs
-					homeTotalRuns.setText(String.valueOf(homeNumRuns));
-				}
-				else
-				{//if away half-inning
-					try {//try catch for adding first run
-						int runsInInning = Integer.valueOf(inningsLabels.get(frameNum).getText());//increment runs in half-inning
-						runsInInning++;
-						inningsLabels.get(frameNum).setText(String.valueOf(runsInInning));
-						}
-						catch(Exception E){
-							inningsLabels.get(frameNum).setText("1");
-							inningsLabels.get(frameNum).setForeground(Color.black);//if first run set runs to one and text color to black
-						}
-					awayNumRuns++;
-					awayTotalRuns.setText(String.valueOf(awayNumRuns));//increment away total runs
-				}
+		AwayNextButton.setBounds(33, 493, 117, 29);
+		frame.getContentPane().add(AwayNextButton);
+
+		//Home next button only appears when it is the home half-inning, it calls the next function
+		HomeNextButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				
+				next();//call next 
+				
+				//disable and hide one button while enabling and showing the other
+				if(frameNum % 2 != 0) {
+					
+					AwayNextButton.setEnabled(false);
+					AwayNextButton.setVisible(false);
+					HomeNextButton.setEnabled(true);
+					HomeNextButton.setVisible(true);
+				}
+				else {
+
+					AwayNextButton.setEnabled(true);
+					AwayNextButton.setVisible(true);
+					HomeNextButton.setEnabled(false);
+					HomeNextButton.setVisible(false);
+				}
 			}
 		});
-		
-		
-		addWalkButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {//action listener for walk button
-				if(frameNum % 2 != 0) {//if home inning
-					homePlayers.get(homePlayerNum).setForeground(Color.cyan);
-					homePlayersPanels.get(homePlayerNum).setBackground(Color.black);//set current player to default color and increment to next player
-					homePlayerNum = (homePlayerNum+1) % 9;
-					homePlayers.get(homePlayerNum).setForeground(Color.black);
-					homePlayersPanels.get(homePlayerNum).setBackground(Color.cyan);
-					int tempWalks = Integer.valueOf(homeTotalWalks.getText());
-					tempWalks++;//add to home walks and update for home team
-					homeTotalWalks.setText(String.valueOf(tempWalks));
-				}
-				else
-				{//otherwise away inning
-					awayPlayers.get(awayPlayerNum).setForeground(Color.cyan);
-					awayPlayersPanels.get(awayPlayerNum).setBackground(Color.black);//set current player to default color and increment to next player
-					awayPlayerNum = (awayPlayerNum+1) % 9;
-					awayPlayers.get(awayPlayerNum).setForeground(Color.black);
-					awayPlayersPanels.get(awayPlayerNum).setBackground(Color.cyan);
-					int tempWalks = Integer.valueOf(awayTotalWalks.getText());
-					tempWalks++;//add to away walks and update for away team
-					awayTotalWalks.setText(String.valueOf(tempWalks));
-					
-					
-				}
-				
-			}
-		});
-			
-		addHitButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {//add action listener for hit button
-				if(frameNum % 2 != 0) {//if home frame
-					homePlayers.get(homePlayerNum).setForeground(Color.cyan);
-					homePlayersPanels.get(homePlayerNum).setBackground(Color.black);//set current player to default color and increment to next player
-					homePlayerNum = (homePlayerNum+1) % 9;
-					homePlayers.get(homePlayerNum).setForeground(Color.black);
-					homePlayersPanels.get(homePlayerNum).setBackground(Color.cyan);
-					int tempHits = Integer.valueOf(homeTotalHits.getText());
-					tempHits++;//add to home hits and update for home team
-					homeTotalHits.setText(String.valueOf(tempHits));
-				}
-				else
-				{//otherwise away frame
-					awayPlayers.get(awayPlayerNum).setForeground(Color.cyan);
-					awayPlayersPanels.get(awayPlayerNum).setBackground(Color.black);//set current player to default color and increment to next player
-					awayPlayerNum = (awayPlayerNum+1) % 9;
-					awayPlayers.get(awayPlayerNum).setForeground(Color.black);
-					awayPlayersPanels.get(awayPlayerNum).setBackground(Color.cyan);
-					int tempHits = Integer.valueOf(awayTotalHits.getText());
-					tempHits++;//add to away hits and update for away team
-					awayTotalHits.setText(String.valueOf(tempHits));
-					
-					
-				}
-				
-			}
-		});
-			
-			
-		
+		HomeNextButton.setBounds(651, 493, 117, 29);
+		frame.getContentPane().add(HomeNextButton);		
 	}
+
 }
