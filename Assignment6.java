@@ -29,6 +29,7 @@ public class Assignment6 {
 	private int awayNumRuns = 0;
 	private int min = 1;
 	private int max = 6;
+	private int numOuts = 0;
 	private Boolean base1 = false;
 	private Boolean base2 = false;
 	private Boolean base3 = false;
@@ -227,6 +228,9 @@ public class Assignment6 {
 		//Generate two random ints for play generation
 		int n1 = (int)Math.floor(Math.random()*(max-min+1)+min);
 		int n2 = (int)Math.floor(Math.random()*(max-min+1)+min);
+		
+		//Track number of outs in order to correctly score double play and sacfly
+		numOuts = Integer.valueOf(outs.getText());
 		
 		Play p = playResult(n1, n2);//Call play result to return which play the random ints represent
 		System.out.println(n1 + " " + n2 + " " + p);//Prints playResult to console 
@@ -564,88 +568,133 @@ public class Assignment6 {
 		//SACFLY case
 		case SACFLY:
 			
-			if(base3 == false && base2 == false && base1 == false) {
+			//if less than 2 outs prior to play
+			if(numOuts < 2) {
 				
+				if(base3 == false && base2 == false && base1 == false) {//bases empty
+					
+					addOut();//empty bases, treat as flyout 
+				}
 				
+				else if(base3 == true && base2 == false && base1 == false) {//3rd occupied
+					
+					base3 = false;
+					addRun();
+					addOut();
+				}
+				
+				else if(base3 == false && base2 == true && base1 == false) {//2nd occupied
+					
+					base2 = false;
+					base3 = true;
+					addOut();
+				}
+				
+				else if(base3 == false && base2 == false && base1 == true) {//1st occupied
+					
+					base1 = false;
+					base2 = true;
+					addOut();
+				}
+				
+				else if(base3 == true && base2 == true && base1 == false) {//2nd and 3rd occupied
+					
+					base2 = false;
+					addOut();
+					addRun();
+				}
+				
+				else if(base3 == true && base2 == false && base1 == true) {//1st and 3rd occupied
+					
+					base1 = false;
+					base2 = true;
+					base3 = false;
+					addOut();
+					addRun();
+				}
+				
+				else if(base3 == false && base2 == true && base1 == true) {//1st and 2nd occupied
+					
+					base3 = true;
+					base1 = false;
+					addOut();
+				}
+				
+				else if(base3 == true && base2 == true && base1 == true) {//bases loaded
+					
+					base1 = false;
+					addOut();
+					addRun();
+				}
+			
+			
 			}
 			
-			else if(base3 == true && base2 == false && base1 == false) {
+			//else, treat as fly out 
+			else {
 				
-
-			}
-			
-			else if(base3 == false && base2 == true && base1 == false) {
-				
-
-			}
-			
-			else if(base3 == false && base2 == false && base1 == true) {
-				
-
-			}
-			
-			else if(base3 == true && base2 == true && base1 == false) {
-				
-
-			}
-			
-			else if(base3 == true && base2 == false && base1 == true) {
-				
-				
-			}
-			
-			else if(base3 == false && base2 == true && base1 == true) {
-				
-
-			}
-			
-			else if(base3 == true && base2 == true && base1 == true) {
-				
-
+				addOut();
 			}
 			
 		break;
 		
+		//DOUBLEPLAY case
 		case DOUBLEPLAY:
 			
-			if(base3 == false && base2 == false && base1 == false) {
-				
-				
+			if(base3 == false && base2 == false && base1 == false) {//empty bases
+					
+				addOut();//empty bases, treat as groundout 
 			}
-			
-			else if(base3 == true && base2 == false && base1 == false) {
 				
-
+			else if(base3 == true && base2 == false && base1 == false) {//3rd occupied
+					
+				base3 = false;
+				addOut();
+				addOut();
 			}
-			
-			else if(base3 == false && base2 == true && base1 == false) {
 				
-
+			else if(base3 == false && base2 == true && base1 == false) {//2nd occupied
+					
+				base2 = false;
+				addOut();
+				addOut();
 			}
-			
-			else if(base3 == false && base2 == false && base1 == true) {
 				
-
+			else if(base3 == false && base2 == false && base1 == true) {//1st occupied
+					
+				base1 = false;
+				addOut();
+				addOut();
 			}
-			
-			else if(base3 == true && base2 == true && base1 == false) {
 				
-
+			else if(base3 == true && base2 == true && base1 == false) {//2nd and 3rd occupied
+					
+				base2 = false;
+				base3 = false;
+				base1 = true;
+				addOut();
+				addOut();
 			}
-			
-			else if(base3 == true && base2 == false && base1 == true) {
 				
-				
+			else if(base3 == true && base2 == false && base1 == true) {//1st and 3rd occupied
+					
+				base3 = false;
+				addOut();
+				addOut();
 			}
-			
-			else if(base3 == false && base2 == true && base1 == true) {
 				
-
+			else if(base3 == false && base2 == true && base1 == true) {//1st and 2nd occupied
+					
+				base2 = false;
+				addOut();
+				addOut();
 			}
-			
-			else if(base3 == true && base2 == true && base1 == true) {
 				
-
+			else if(base3 == true && base2 == true && base1 == true) {//bases loaded
+					
+				base3 = false;
+				addOut();
+				addOut();
 			}
 			
 		break;
@@ -729,6 +778,9 @@ public class Assignment6 {
 			
 			txtBase3.setBackground(Color.BLACK);
 		}
+		
+		//Track number of outs in order to correctly score double play and sacfly
+		numOuts = Integer.valueOf(outs.getText());
 	}
 	
 	//Enumerated type for the play results
