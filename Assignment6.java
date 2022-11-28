@@ -87,9 +87,7 @@ public class Assignment6 {
 		if(frameNum % 2 != 0) {//if home frame
 			homePlayers.get(homePlayerNum).setForeground(Color.cyan);
 			homePlayersPanels.get(homePlayerNum).setBackground(Color.black);//set current player to default color and increment to next player
-			homeHits.set(homePlayerNum, homeHits.get(homePlayerNum)+1);
 			homePlayerNum = (homePlayerNum+1) % 9;
-			homeAtBats.set(homePlayerNum, homeAtBats.get(homePlayerNum)+1);
 			homePlayers.get(homePlayerNum).setForeground(Color.black);
 			homePlayersPanels.get(homePlayerNum).setBackground(Color.cyan);
 			int tempHits = Integer.valueOf(homeTotalHits.getText());
@@ -101,15 +99,15 @@ public class Assignment6 {
 		else{//otherwise away frame
 			awayPlayers.get(awayPlayerNum).setForeground(Color.cyan);
 			awayPlayersPanels.get(awayPlayerNum).setBackground(Color.black);//set current player to default color and increment to next player
-			awayHits.set(awayPlayerNum, awayHits.get(awayPlayerNum)+1);
 			awayPlayerNum = (awayPlayerNum+1) % 9;
-			awayAtBats.set(awayPlayerNum, awayAtBats.get(awayPlayerNum)+1);
 			awayPlayers.get(awayPlayerNum).setForeground(Color.black);
 			awayPlayersPanels.get(awayPlayerNum).setBackground(Color.cyan);
 			int tempHits = Integer.valueOf(awayTotalHits.getText());
 			tempHits++;//add to away hits and update for away team
 			awayTotalHits.setText(String.valueOf(tempHits));
 			currentPlayerLabel.setText(awayPlayers.get(awayPlayerNum).getText());
+			
+			
 		}
 	}
 	
@@ -177,7 +175,6 @@ public class Assignment6 {
 	
 	//Function for adding an out when an appropriate play is generated
 	private void addOut(){
-	
 		int tempOuts = Integer.valueOf(outs.getText());
 		tempOuts++;//get value of outs and then increment value
 		if (tempOuts == 3) {//if outs is three
@@ -189,11 +186,21 @@ public class Assignment6 {
 				}
 				homePlayers.get(homePlayerNum).setForeground(Color.cyan);//set colors for last player back to default
 				homePlayersPanels.get(homePlayerNum).setBackground(Color.black);
+				awayPlayersPanels.get(awayPlayerNum).setBackground(Color.black);
+				awayPlayers.get(awayPlayerNum).setForeground(Color.cyan);
 				innings.get((frameNum-1)).setBackground(Color.black);
 				inningsLabels.get((frameNum-1)).setForeground(Color.cyan);//set last frame to default color
 				currentPlayerLabel.setText(null);
+				playResultLabel.setText(playResultLabel.getText()+", End of game");
+				playerAtBatsLabel.setText("");
+				playerHitsLabel.setText("");
+				playerWalksLabel.setText("");
+				playerDoublesLabel.setText("");
+				playerTriplesLabel.setText("");
+				playerHomersLabel.setText("");
 			}
 			else if(frameNum % 2 != 0) {//if inning not over and away team
+				playResultLabel.setText(playResultLabel.getText()+", End of frame");//Prints playResult to gui
 				innings.get((frameNum-1)).setBackground(Color.black);//set last frame back to default
 				inningsLabels.get((frameNum-1)).setForeground(Color.cyan);
 				if(inningsLabels.get((frameNum-1)).getText() == ""){
@@ -212,11 +219,23 @@ public class Assignment6 {
 				currentPlayerLabel.setText(homePlayers.get(homePlayerNum).getText());
 				innings.get(frameNum).setBackground(Color.cyan);
 				inningsLabels.get((frameNum)).setForeground(Color.black);
+				
+				
+				int tempAtBats = homeAtBats.get(homePlayerNum);
+				tempAtBats++;
+				homeAtBats.set(homePlayerNum,tempAtBats);
+				playerAtBatsLabel.setText(String.valueOf(homeAtBats.get(homePlayerNum)));
+				playerHitsLabel.setText(String.valueOf(homeHits.get(homePlayerNum)));
+				playerWalksLabel.setText(String.valueOf(homeWalks.get(homePlayerNum)));
+				playerDoublesLabel.setText(String.valueOf(homeDoubles.get(homePlayerNum)));
+				playerTriplesLabel.setText(String.valueOf(homeTriples.get(homePlayerNum)));
+				playerHomersLabel.setText(String.valueOf(homeHomers.get(homePlayerNum)));
 			}
 			else {
 				if(inningsLabels.get((frameNum-1)).getText() == ""){
 					inningsLabels.get((frameNum-1)).setText("0");//if no runs scored in inning set value to zero
 				}
+				playResultLabel.setText(playResultLabel.getText()+", End of inning");//Prints playResult to gui
 				outs.setText("0");//set outs to zero
 				base1 = false;
 				base2 = false;
@@ -231,6 +250,16 @@ public class Assignment6 {
 				currentPlayerLabel.setText(awayPlayers.get(awayPlayerNum).getText());
 				innings.get(frameNum).setBackground(Color.cyan);
 				inningsLabels.get((frameNum)).setForeground(Color.black);
+				
+				int tempAtBats = awayAtBats.get(awayPlayerNum);
+				tempAtBats++;
+				awayAtBats.set(awayPlayerNum,tempAtBats);
+				playerAtBatsLabel.setText(String.valueOf(awayAtBats.get(awayPlayerNum)));
+				playerHitsLabel.setText(String.valueOf(awayHits.get(awayPlayerNum)));
+				playerWalksLabel.setText(String.valueOf(awayWalks.get(awayPlayerNum)));
+				playerDoublesLabel.setText(String.valueOf(awayDoubles.get(awayPlayerNum)));
+				playerTriplesLabel.setText(String.valueOf(awayTriples.get(awayPlayerNum)));
+				playerHomersLabel.setText(String.valueOf(awayHomers.get(awayPlayerNum)));
 			}	
 		}
 		else {//if adding an out and inning not over
@@ -250,6 +279,9 @@ public class Assignment6 {
 				awayPlayers.get(awayPlayerNum).setForeground(Color.black);
 				awayPlayersPanels.get(awayPlayerNum).setBackground(Color.cyan);
 				currentPlayerLabel.setText(awayPlayers.get(awayPlayerNum).getText());
+				int tempAtBats = awayAtBats.get(awayPlayerNum);
+				tempAtBats++;
+				awayAtBats.set(awayPlayerNum,tempAtBats);
 			}
 		}
 	}
@@ -265,15 +297,19 @@ public class Assignment6 {
 		numOuts = Integer.valueOf(outs.getText());
 		
 		Play p = playResult(n1, n2);//Call play result to return which play the random ints represent
-		System.out.println(n1 + " " + n2 + " " + p);//Prints playResult to console 
-		playResultLabel.setText(n1+" , "+ n2 + " " + p);
-		
+		playResultLabel.setText(n1+" , "+ n2 + " " + p);//Prints playResult to gui 
+
 		//Switch statement, switch on which play has been generated, carry out correct steps for each play
 		switch(p){
 		
 		//HOMER case
 		case HOMER:
-			
+			if(frameNum % 2 != 0) {
+				awayHomers.set( awayPlayerNum, awayHomers.get(awayPlayerNum) + 1);
+			}
+			else {
+				homeHomers.set( homePlayerNum, homeHomers.get(homePlayerNum) + 1);
+			}
 			addHit(); //Always results in a hit
 			
 			
@@ -346,7 +382,14 @@ public class Assignment6 {
 
 		//SINGLE case
 		case SINGLE:
-			
+			if(frameNum % 2 != 0) {
+				int tempHits = awayHits.get(awayPlayerNum);
+				tempHits++;
+				awayHits.set( awayPlayerNum, tempHits);
+			}
+			else {
+				homeHits.set( homePlayerNum, homeHits.get(homePlayerNum) + 1);
+			}
 			addHit();//Always results in a hit
 			
 			//SINGLE shifts all bases runners by 1, if a runner is on 3rd a run will occur
@@ -403,6 +446,20 @@ public class Assignment6 {
 		//DOUBLE case	
 		case DOUBLE:
 			
+			if(frameNum % 2 != 0) {
+				int tempHits = awayHits.get(awayPlayerNum);
+				tempHits++;
+				awayHits.set( awayPlayerNum, tempHits);
+			}
+			else {
+				homeHits.set( homePlayerNum, homeHits.get(homePlayerNum) + 1);
+			}
+			if(frameNum % 2 != 0) {
+				awayDoubles.set( awayPlayerNum, awayDoubles.get(awayPlayerNum) + 1);
+			}
+			else {
+				homeDoubles.set( homePlayerNum, homeDoubles.get(homePlayerNum) + 1);
+			}
 			addHit();//Always results in a hit
 			
 			//Shifts all bases runners by 2, if a runner is on 2nd or 3rd a run will occur 
@@ -462,7 +519,20 @@ public class Assignment6 {
 		
 		//TRIPLE case
 		case TRIPLE:
-			
+			if(frameNum % 2 != 0) {
+				int tempHits = awayHits.get(awayPlayerNum);
+				tempHits++;
+				awayHits.set( awayPlayerNum, tempHits);
+			}
+			else {
+				homeHits.set( homePlayerNum, homeHits.get(homePlayerNum) + 1);
+			}
+			if(frameNum % 2 != 0) {
+				awayTriples.set( awayPlayerNum, awayDoubles.get(awayPlayerNum) + 1);
+			}
+			else {
+				homeTriples.set( homePlayerNum, homeDoubles.get(homePlayerNum) + 1);
+			}
 			addHit();//always results in a hit
 			
 			//Shifts bases runners by 3, any base occupied before play will be a run
@@ -735,6 +805,12 @@ public class Assignment6 {
 		//WALK case
 		case WALK:
 			
+			if(frameNum % 2 != 0) {
+				awayWalks.set( awayPlayerNum, awayWalks.get(awayPlayerNum) + 1);
+			}
+			else {
+				homeWalks.set( homePlayerNum, homeWalks.get(homePlayerNum) + 1);
+			}
 			addWalk();//Always results in adding a walk
 			
 			//WALK shifts all bases runners by 1, loaded bases will create a run 
@@ -2054,6 +2130,7 @@ public class Assignment6 {
 		txtBase1.setForeground(Color.CYAN);
 		txtBase1.setBackground(Color.BLACK);
 		txtBase1.setBounds(280, 60, 76, 46);
+		txtBase1.setEditable(false);
 		panel.add(txtBase1);
 		txtBase1.setColumns(10);
 		
@@ -2064,6 +2141,7 @@ public class Assignment6 {
 		txtBase2.setColumns(10);
 		txtBase2.setBackground(Color.BLACK);
 		txtBase2.setBounds(152, 6, 76, 46);
+		txtBase2.setEditable(false);
 		panel.add(txtBase2);
 		
 		txtBase3 = new JTextField();
@@ -2073,6 +2151,7 @@ public class Assignment6 {
 		txtBase3.setColumns(10);
 		txtBase3.setBackground(Color.BLACK);
 		txtBase3.setBounds(43, 60, 76, 46);
+		txtBase3.setEditable(false);
 		panel.add(txtBase3);
 		
 		txtHome = new JTextField();
@@ -2082,27 +2161,31 @@ public class Assignment6 {
 		txtHome.setColumns(10);
 		txtHome.setBackground(Color.BLACK);
 		txtHome.setBounds(152, 136, 76, 46);
+		txtHome.setEditable(false);
 		panel.add(txtHome);
+		
+		
 		
 		//start game button begins the game, then disables itself
 				startGameButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						for(int i = 0; i < 9; i++) {
-							homeAtBats.add(i);
-							homeHits.add(i);
-							homeWalks.add(i);
-							homeDoubles.add(i);
-							homeTriples.add(i);
-							homeHomers.add(i);
-							awayAtBats.add(i);
-							awayHits.add(i);
-							awayWalks.add(i);
-							awayDoubles.add(i);
-							awayTriples.add(i);
-							awayHomers.add(i);
+							homeAtBats.add(0);
+							homeHits.add(0);
+							homeWalks.add(0);
+							homeDoubles.add(0);
+							homeTriples.add(0);
+							homeHomers.add(0);
+							awayAtBats.add(0);
+							awayHits.add(0);
+							awayWalks.add(0);
+							awayDoubles.add(0);
+							awayTriples.add(0);
+							awayHomers.add(0);
 						}
 						
 						startGameButton.setEnabled(false);
+						AwayNextButton.setVisible(true);
 						outs.setText("0");//set text and colors for tracking boxes
 						outs.setForeground(Color.cyan);
 						homeTotalRuns.setText("0");
@@ -2139,29 +2222,44 @@ public class Assignment6 {
 		//Away next button only appears when it is the away half-inning, it calls the next function
 		AwayNextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				
 				next();//call next
 				
 				//disable and hide one button while enabling and showing the other
-				if(frameNum % 2 != 0) {
+				if(frameNum % 2 != 0 && frameNum != 18) {
 					
 					AwayNextButton.setEnabled(false);
 					AwayNextButton.setVisible(false);
 					HomeNextButton.setEnabled(true);
 					HomeNextButton.setVisible(true);
 				}
-				else {
+				else if(frameNum != 18){
 
 					AwayNextButton.setEnabled(true);
 					AwayNextButton.setVisible(true);
 					HomeNextButton.setEnabled(false);
 					HomeNextButton.setVisible(false);
 				}
+				else {
+					AwayNextButton.setEnabled(false);
+					AwayNextButton.setVisible(false);
+					HomeNextButton.setEnabled(false);
+					HomeNextButton.setVisible(false);
+					txtBase1.setForeground(Color.CYAN);
+					txtBase1.setBackground(Color.BLACK);
+					txtBase2.setForeground(Color.CYAN);
+					txtBase2.setBackground(Color.BLACK);
+					txtBase3.setForeground(Color.CYAN);
+					txtBase3.setBackground(Color.BLACK);
+					txtHome.setForeground(Color.CYAN);
+					txtHome.setBackground(Color.BLACK);
+				}
 			}
 		});
 		AwayNextButton.setBounds(33, 493, 117, 29);
 		frame.getContentPane().add(AwayNextButton);
-
+		AwayNextButton.setVisible(false);
+		HomeNextButton.setVisible(false);
 		//Home next button only appears when it is the home half-inning, it calls the next function
 		HomeNextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -2169,19 +2267,32 @@ public class Assignment6 {
 				next();//call next 
 				
 				//disable and hide one button while enabling and showing the other
-				if(frameNum % 2 != 0) {
-					
+				if(frameNum % 2 != 0 && frameNum != 18) {
 					AwayNextButton.setEnabled(false);
 					AwayNextButton.setVisible(false);
 					HomeNextButton.setEnabled(true);
 					HomeNextButton.setVisible(true);
 				}
-				else {
+				else if(frameNum!= 18){
 
 					AwayNextButton.setEnabled(true);
 					AwayNextButton.setVisible(true);
 					HomeNextButton.setEnabled(false);
 					HomeNextButton.setVisible(false);
+				}
+				else {
+					AwayNextButton.setEnabled(false);
+					AwayNextButton.setVisible(false);
+					HomeNextButton.setEnabled(false);
+					HomeNextButton.setVisible(false);
+					txtBase1.setForeground(Color.CYAN);
+					txtBase1.setBackground(Color.BLACK);
+					txtBase2.setForeground(Color.CYAN);
+					txtBase2.setBackground(Color.BLACK);
+					txtBase3.setForeground(Color.CYAN);
+					txtBase3.setBackground(Color.BLACK);
+					txtHome.setForeground(Color.CYAN);
+					txtHome.setBackground(Color.BLACK);
 				}
 			}
 		});
