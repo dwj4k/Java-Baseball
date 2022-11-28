@@ -46,7 +46,14 @@ public class Assignment6 {
 	JLabel homeTotalRuns = new JLabel("");
 	JLabel awayTotalRuns = new JLabel("");
 	JLabel outs = new JLabel("");
-	
+	JLabel playResultLabel = new JLabel(" ");
+	JLabel currentPlayerLabel = new JLabel(" ");
+	JLabel playerAtBatsLabel = new JLabel("");
+	JLabel playerHitsLabel = new JLabel("");
+	JLabel playerWalksLabel = new JLabel("");
+	JLabel playerDoublesLabel = new JLabel("");
+	JLabel playerTriplesLabel = new JLabel("");
+	JLabel playerHomersLabel = new JLabel("");
 	//Make JButtons
 	JButton AwayNextButton = new JButton("Next");
 	JButton HomeNextButton = new JButton("Next");
@@ -59,31 +66,50 @@ public class Assignment6 {
 	ArrayList<JPanel> awayPlayersPanels = new ArrayList<JPanel>();//create arraylist awayPlayersPanels away players
 	ArrayList<JLabel> inningsLabels = new ArrayList<JLabel>();  //create arraylist inningslabels for labels of innings
 	ArrayList<JPanel> innings = new ArrayList<JPanel>(); //create arraylist innings with innings scorepanels
-
-
+	//home players' stats arrayLists
+	ArrayList<Integer> homeAtBats = new ArrayList<Integer>();
+	ArrayList<Integer> homeHits = new ArrayList<Integer>();
+	ArrayList<Integer> homeWalks = new ArrayList<Integer>();
+	ArrayList<Integer> homeDoubles = new ArrayList<Integer>();
+	ArrayList<Integer> homeTriples = new ArrayList<Integer>();
+	ArrayList<Integer> homeHomers = new ArrayList<Integer>();
+	//away players' stats arrayLists
+	ArrayList<Integer> awayAtBats = new ArrayList<Integer>();
+	ArrayList<Integer> awayHits = new ArrayList<Integer>();
+	ArrayList<Integer> awayWalks = new ArrayList<Integer>();
+	ArrayList<Integer> awayDoubles = new ArrayList<Integer>();
+	ArrayList<Integer> awayTriples = new ArrayList<Integer>();
+	ArrayList<Integer> awayHomers = new ArrayList<Integer>();
+	
 	//Function for adding a hit when an appropriate play is generated
 	private void addHit(){
 		
 		if(frameNum % 2 != 0) {//if home frame
 			homePlayers.get(homePlayerNum).setForeground(Color.cyan);
 			homePlayersPanels.get(homePlayerNum).setBackground(Color.black);//set current player to default color and increment to next player
+			homeHits.set(homePlayerNum, homeHits.get(homePlayerNum)+1);
 			homePlayerNum = (homePlayerNum+1) % 9;
+			homeAtBats.set(homePlayerNum, homeAtBats.get(homePlayerNum)+1);
 			homePlayers.get(homePlayerNum).setForeground(Color.black);
 			homePlayersPanels.get(homePlayerNum).setBackground(Color.cyan);
 			int tempHits = Integer.valueOf(homeTotalHits.getText());
 			tempHits++;//add to home hits and update for home team
 			homeTotalHits.setText(String.valueOf(tempHits));
+			currentPlayerLabel.setText(homePlayers.get(homePlayerNum).getText());
 		}
 		
 		else{//otherwise away frame
 			awayPlayers.get(awayPlayerNum).setForeground(Color.cyan);
 			awayPlayersPanels.get(awayPlayerNum).setBackground(Color.black);//set current player to default color and increment to next player
+			awayHits.set(awayPlayerNum, awayHits.get(awayPlayerNum)+1);
 			awayPlayerNum = (awayPlayerNum+1) % 9;
+			awayAtBats.set(awayPlayerNum, awayAtBats.get(awayPlayerNum)+1);
 			awayPlayers.get(awayPlayerNum).setForeground(Color.black);
 			awayPlayersPanels.get(awayPlayerNum).setBackground(Color.cyan);
 			int tempHits = Integer.valueOf(awayTotalHits.getText());
 			tempHits++;//add to away hits and update for away team
 			awayTotalHits.setText(String.valueOf(tempHits));
+			currentPlayerLabel.setText(awayPlayers.get(awayPlayerNum).getText());
 		}
 	}
 	
@@ -99,6 +125,7 @@ public class Assignment6 {
 			int tempWalks = Integer.valueOf(homeTotalWalks.getText());
 			tempWalks++;//add to home walks and update for home team
 			homeTotalWalks.setText(String.valueOf(tempWalks));
+			currentPlayerLabel.setText(homePlayers.get(homePlayerNum).getText());
 		}
 		else
 		{//otherwise away inning
@@ -110,7 +137,7 @@ public class Assignment6 {
 			int tempWalks = Integer.valueOf(awayTotalWalks.getText());
 			tempWalks++;//add to away walks and update for away team
 			awayTotalWalks.setText(String.valueOf(tempWalks));
-			
+			currentPlayerLabel.setText(awayPlayers.get(awayPlayerNum).getText());
 			
 		}
 	}
@@ -164,6 +191,7 @@ public class Assignment6 {
 				homePlayersPanels.get(homePlayerNum).setBackground(Color.black);
 				innings.get((frameNum-1)).setBackground(Color.black);
 				inningsLabels.get((frameNum-1)).setForeground(Color.cyan);//set last frame to default color
+				currentPlayerLabel.setText(null);
 			}
 			else if(frameNum % 2 != 0) {//if inning not over and away team
 				innings.get((frameNum-1)).setBackground(Color.black);//set last frame back to default
@@ -177,10 +205,11 @@ public class Assignment6 {
 				base2 = false;
 				base3 = false;
 				awayPlayersPanels.get(awayPlayerNum).setBackground(Color.black);
-				awayPlayers.get(awayPlayerNum).setForeground(Color.cyan);//set current away playyer to default and increment
+				awayPlayers.get(awayPlayerNum).setForeground(Color.cyan);//set current away player to default and increment
 				awayPlayerNum = (awayPlayerNum+1) % 9;
 				homePlayersPanels.get(homePlayerNum).setBackground(Color.cyan);
 				homePlayers.get(homePlayerNum).setForeground(Color.black);//set active away player
+				currentPlayerLabel.setText(homePlayers.get(homePlayerNum).getText());
 				innings.get(frameNum).setBackground(Color.cyan);
 				inningsLabels.get((frameNum)).setForeground(Color.black);
 			}
@@ -199,6 +228,7 @@ public class Assignment6 {
 				homePlayerNum = (homePlayerNum+1) % 9;
 				awayPlayersPanels.get(awayPlayerNum).setBackground(Color.cyan);
 				awayPlayers.get(awayPlayerNum).setForeground(Color.black);//set active away player and inning
+				currentPlayerLabel.setText(awayPlayers.get(awayPlayerNum).getText());
 				innings.get(frameNum).setBackground(Color.cyan);
 				inningsLabels.get((frameNum)).setForeground(Color.black);
 			}	
@@ -211,6 +241,7 @@ public class Assignment6 {
 				homePlayerNum = (homePlayerNum+1) % 9;
 				homePlayers.get(homePlayerNum).setForeground(Color.black);
 				homePlayersPanels.get(homePlayerNum).setBackground(Color.cyan);
+				currentPlayerLabel.setText(homePlayers.get(homePlayerNum).getText());
 			}
 			else {//for away half-inning
 				awayPlayers.get(awayPlayerNum).setForeground(Color.cyan);//set current player to default colors and increment to next
@@ -218,6 +249,7 @@ public class Assignment6 {
 				awayPlayerNum = (awayPlayerNum+1) % 9;
 				awayPlayers.get(awayPlayerNum).setForeground(Color.black);
 				awayPlayersPanels.get(awayPlayerNum).setBackground(Color.cyan);
+				currentPlayerLabel.setText(awayPlayers.get(awayPlayerNum).getText());
 			}
 		}
 	}
@@ -234,6 +266,7 @@ public class Assignment6 {
 		
 		Play p = playResult(n1, n2);//Call play result to return which play the random ints represent
 		System.out.println(n1 + " " + n2 + " " + p);//Prints playResult to console 
+		playResultLabel.setText(n1+" , "+ n2 + " " + p);
 		
 		//Switch statement, switch on which play has been generated, carry out correct steps for each play
 		switch(p){
@@ -1746,34 +1779,8 @@ public class Assignment6 {
 		
 		//Here begins more handwritten code
 		
-		//start game button begins the game, then disables itself
-		startGameButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				startGameButton.setEnabled(false);
-				outs.setText("0");//set text and colors for tracking boxes
-				outs.setForeground(Color.cyan);
-				homeTotalRuns.setText("0");
-				homeTotalRuns.setForeground(Color.cyan);
-				awayTotalRuns.setText("0");
-				awayTotalRuns.setForeground(Color.cyan);
-				homeTotalHits.setText("0");
-				homeTotalHits.setForeground(Color.cyan);
-				awayTotalHits.setText("0");
-				awayTotalHits.setForeground(Color.cyan);
-				homeTotalWalks.setText("0");
-				homeTotalWalks.setForeground(Color.cyan);
-				awayTotalWalks.setText("0");
-				awayTotalWalks.setForeground(Color.cyan);
-				awayPlayer1Panel.setBackground(Color.cyan);//set away player colors and scorepanel colors
-				awayPlayer1.setForeground(Color.black);
-				awayScorePanel1.setBackground(Color.cyan);
-				HomeNextButton.setEnabled(false);
-				HomeNextButton.setVisible(false);
-			}
-		});
-		startGameButton.setBounds(307, 543, 85, 21);
-		frame.getContentPane().add(startGameButton);
+		
+		
 		
 		innings.add(awayScorePanel1);//add elements to arraylist
 		innings.add(homeScorePanel1);
@@ -1861,6 +1868,186 @@ public class Assignment6 {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
+		JPanel displayPanel = new JPanel();
+		displayPanel.setBackground(new Color(0, 100, 0));
+		displayPanel.setBounds(202, 293, 401, 189);
+		frame.getContentPane().add(displayPanel);
+		displayPanel.setLayout(null);
+		
+		JPanel playResultPanel = new JPanel();
+		playResultPanel.setBackground(new Color(0, 0, 0));
+		playResultPanel.setBounds(90, 137, 209, 39);
+		displayPanel.add(playResultPanel);
+		playResultPanel.setLayout(null);
+		
+		
+		playResultLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+		playResultLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		playResultLabel.setForeground(new Color(0, 255, 255));
+		playResultLabel.setBounds(0, 0, 209, 39);
+		playResultPanel.add(playResultLabel);
+		
+		JPanel currentPlayerPanel = new JPanel();
+		currentPlayerPanel.setBackground(new Color(0, 0, 0));
+		currentPlayerPanel.setBounds(90, 13, 209, 39);
+		displayPanel.add(currentPlayerPanel);
+		currentPlayerPanel.setLayout(null);
+		
+		
+		currentPlayerLabel.setForeground(new Color(0, 255, 255));
+		currentPlayerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		currentPlayerLabel.setBounds(0, 0, 209, 39);
+		currentPlayerPanel.add(currentPlayerLabel);
+		
+		JPanel playerAtBatsPanel = new JPanel();
+		playerAtBatsPanel.setLayout(null);
+		playerAtBatsPanel.setBorder(new LineBorder(new Color(255, 255, 255)));
+		playerAtBatsPanel.setBackground(Color.BLACK);
+		playerAtBatsPanel.setBounds(90, 104, 20, 20);
+		displayPanel.add(playerAtBatsPanel);
+		
+		
+		playerAtBatsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		playerAtBatsLabel.setForeground(Color.CYAN);
+		playerAtBatsLabel.setBounds(0, 0, 20, 20);
+		playerAtBatsPanel.add(playerAtBatsLabel);
+		
+		JPanel playerHitsPanel = new JPanel();
+		playerHitsPanel.setLayout(null);
+		playerHitsPanel.setBorder(new LineBorder(new Color(255, 255, 255)));
+		playerHitsPanel.setBackground(Color.BLACK);
+		playerHitsPanel.setBounds(122, 104, 20, 20);
+		displayPanel.add(playerHitsPanel);
+		
+		
+		playerHitsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		playerHitsLabel.setForeground(Color.CYAN);
+		playerHitsLabel.setBounds(0, 0, 20, 20);
+		playerHitsPanel.add(playerHitsLabel);
+		
+		JPanel playerDoublesPanel = new JPanel();
+		playerDoublesPanel.setLayout(null);
+		playerDoublesPanel.setBorder(new LineBorder(new Color(255, 255, 255)));
+		playerDoublesPanel.setBackground(Color.BLACK);
+		playerDoublesPanel.setBounds(184, 104, 20, 20);
+		displayPanel.add(playerDoublesPanel);
+		
+		
+		playerDoublesLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		playerDoublesLabel.setForeground(Color.CYAN);
+		playerDoublesLabel.setBounds(0, 0, 20, 20);
+		playerDoublesPanel.add(playerDoublesLabel);
+		
+		JPanel playerTriplesPanel = new JPanel();
+		playerTriplesPanel.setLayout(null);
+		playerTriplesPanel.setBorder(new LineBorder(new Color(255, 255, 255)));
+		playerTriplesPanel.setBackground(Color.BLACK);
+		playerTriplesPanel.setBounds(216, 104, 20, 20);
+		displayPanel.add(playerTriplesPanel);
+		
+		
+		playerTriplesLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		playerTriplesLabel.setForeground(Color.CYAN);
+		playerTriplesLabel.setBounds(0, 0, 20, 20);
+		playerTriplesPanel.add(playerTriplesLabel);
+		
+		JPanel playerHomersPanel = new JPanel();
+		playerHomersPanel.setLayout(null);
+		playerHomersPanel.setBorder(new LineBorder(new Color(255, 255, 255)));
+		playerHomersPanel.setBackground(Color.BLACK);
+		playerHomersPanel.setBounds(248, 104, 20, 20);
+		displayPanel.add(playerHomersPanel);
+		
+		
+		playerHomersLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		playerHomersLabel.setForeground(Color.CYAN);
+		playerHomersLabel.setBounds(0, 0, 20, 20);
+		playerHomersPanel.add(playerHomersLabel);
+		
+		JPanel atBatsPanel = new JPanel();
+		atBatsPanel.setLayout(null);
+		atBatsPanel.setBackground(new Color(0, 100, 0));
+		atBatsPanel.setBounds(90, 71, 20, 20);
+		displayPanel.add(atBatsPanel);
+		
+		JLabel atBatsLabel = new JLabel("AB");
+		atBatsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		atBatsLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		atBatsLabel.setBounds(0, 0, 20, 20);
+		atBatsPanel.add(atBatsLabel);
+		
+		JPanel hitsPanel = new JPanel();
+		hitsPanel.setLayout(null);
+		hitsPanel.setBackground(new Color(0, 100, 0));
+		hitsPanel.setBounds(122, 71, 20, 20);
+		displayPanel.add(hitsPanel);
+		
+		JLabel hitsLabel = new JLabel("H");
+		hitsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		hitsLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		hitsLabel.setBounds(0, 0, 20, 20);
+		hitsPanel.add(hitsLabel);
+		
+		JPanel doublesPanel = new JPanel();
+		doublesPanel.setLayout(null);
+		doublesPanel.setBackground(new Color(0, 100, 0));
+		doublesPanel.setBounds(184, 71, 20, 20);
+		displayPanel.add(doublesPanel);
+		
+		JLabel doublesLabel = new JLabel("D");
+		doublesLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		doublesLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		doublesLabel.setBounds(0, 0, 20, 20);
+		doublesPanel.add(doublesLabel);
+		
+		JPanel triplesPanel = new JPanel();
+		triplesPanel.setLayout(null);
+		triplesPanel.setBackground(new Color(0, 100, 0));
+		triplesPanel.setBounds(216, 71, 20, 20);
+		displayPanel.add(triplesPanel);
+		
+		JLabel triplesLabel = new JLabel("T");
+		triplesLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		triplesLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		triplesLabel.setBounds(0, 0, 20, 20);
+		triplesPanel.add(triplesLabel);
+		
+		JPanel homersPanel = new JPanel();
+		homersPanel.setLayout(null);
+		homersPanel.setBackground(new Color(0, 100, 0));
+		homersPanel.setBounds(248, 71, 20, 20);
+		displayPanel.add(homersPanel);
+		
+		JLabel homersLabel = new JLabel("HR");
+		homersLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		homersLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		homersLabel.setBounds(0, 0, 20, 20);
+		homersPanel.add(homersLabel);
+		
+		JPanel playerWalksPanel = new JPanel();
+		playerWalksPanel.setLayout(null);
+		playerWalksPanel.setBorder(new LineBorder(new Color(255, 255, 255)));
+		playerWalksPanel.setBackground(Color.BLACK);
+		playerWalksPanel.setBounds(154, 104, 20, 20);
+		displayPanel.add(playerWalksPanel);
+		
+		playerWalksLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		playerWalksLabel.setForeground(Color.CYAN);
+		playerWalksLabel.setBounds(0, 0, 20, 20);
+		playerWalksPanel.add(playerWalksLabel);
+		
+		JPanel walksPanel = new JPanel();
+		walksPanel.setLayout(null);
+		walksPanel.setBackground(new Color(0, 100, 0));
+		walksPanel.setBounds(154, 71, 20, 20);
+		displayPanel.add(walksPanel);
+		
+		JLabel walksLabel = new JLabel("W");
+		walksLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		walksLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		walksLabel.setBounds(0, 0, 20, 20);
+		walksPanel.add(walksLabel);
+		
 		txtBase1 = new JTextField();
 		txtBase1.setHorizontalAlignment(SwingConstants.CENTER);
 		txtBase1.setText("B1");
@@ -1896,6 +2083,58 @@ public class Assignment6 {
 		txtHome.setBackground(Color.BLACK);
 		txtHome.setBounds(152, 136, 76, 46);
 		panel.add(txtHome);
+		
+		//start game button begins the game, then disables itself
+				startGameButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						for(int i = 0; i < 9; i++) {
+							homeAtBats.add(i);
+							homeHits.add(i);
+							homeWalks.add(i);
+							homeDoubles.add(i);
+							homeTriples.add(i);
+							homeHomers.add(i);
+							awayAtBats.add(i);
+							awayHits.add(i);
+							awayWalks.add(i);
+							awayDoubles.add(i);
+							awayTriples.add(i);
+							awayHomers.add(i);
+						}
+						
+						startGameButton.setEnabled(false);
+						outs.setText("0");//set text and colors for tracking boxes
+						outs.setForeground(Color.cyan);
+						homeTotalRuns.setText("0");
+						homeTotalRuns.setForeground(Color.cyan);
+						awayTotalRuns.setText("0");
+						awayTotalRuns.setForeground(Color.cyan);
+						homeTotalHits.setText("0");
+						homeTotalHits.setForeground(Color.cyan);
+						awayTotalHits.setText("0");
+						awayTotalHits.setForeground(Color.cyan);
+						homeTotalWalks.setText("0");
+						homeTotalWalks.setForeground(Color.cyan);
+						awayTotalWalks.setText("0");
+						awayTotalWalks.setForeground(Color.cyan);
+						awayPlayer1Panel.setBackground(Color.cyan);//set away player colors and scorepanel colors
+						awayPlayer1.setForeground(Color.black);
+						awayScorePanel1.setBackground(Color.cyan);
+						currentPlayerLabel.setText(awayPlayers.get(awayPlayerNum).getText());
+						HomeNextButton.setEnabled(false);
+						HomeNextButton.setVisible(false);
+						awayAtBats.set(awayPlayerNum, awayAtBats.get(awayPlayerNum)+1);
+						
+						playerAtBatsLabel.setText(String.valueOf(awayAtBats.get(awayPlayerNum)));
+						playerWalksLabel.setText(String.valueOf(awayWalks.get(awayPlayerNum)));
+						playerHitsLabel.setText(String.valueOf(awayHits.get(awayPlayerNum)));
+						playerDoublesLabel.setText(String.valueOf(awayDoubles.get(awayPlayerNum)));
+						playerTriplesLabel.setText(String.valueOf(awayTriples.get(awayPlayerNum)));
+						playerHomersLabel.setText(String.valueOf(awayHomers.get(awayPlayerNum)));
+					}
+				});
+				startGameButton.setBounds(202, 493, 123, 29);
+				frame.getContentPane().add(startGameButton);
 		
 		//Away next button only appears when it is the away half-inning, it calls the next function
 		AwayNextButton.addActionListener(new ActionListener() {
@@ -1948,6 +2187,7 @@ public class Assignment6 {
 		});
 		HomeNextButton.setBounds(651, 493, 117, 29);
 		frame.getContentPane().add(HomeNextButton);		
+		
+		
 	}
-
 }
