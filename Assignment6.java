@@ -94,6 +94,15 @@ public class Assignment6 {
 			tempHits++;//add to home hits and update for home team
 			homeTotalHits.setText(String.valueOf(tempHits));
 			currentPlayerLabel.setText(homePlayers.get(homePlayerNum).getText());
+			int tempAtBats = homeAtBats.get(homePlayerNum);
+			tempAtBats++;
+			homeAtBats.set(homePlayerNum, tempAtBats);
+			playerAtBatsLabel.setText(String.valueOf(homeAtBats.get(homePlayerNum)));
+			playerHitsLabel.setText(String.valueOf(homeHits.get(homePlayerNum)));
+			playerWalksLabel.setText(String.valueOf(homeWalks.get(homePlayerNum)));
+			playerDoublesLabel.setText(String.valueOf(homeDoubles.get(homePlayerNum)));
+			playerTriplesLabel.setText(String.valueOf(homeTriples.get(homePlayerNum)));
+			playerHomersLabel.setText(String.valueOf(homeHomers.get(homePlayerNum)));
 		}
 		
 		else{//otherwise away frame
@@ -106,7 +115,16 @@ public class Assignment6 {
 			tempHits++;//add to away hits and update for away team
 			awayTotalHits.setText(String.valueOf(tempHits));
 			currentPlayerLabel.setText(awayPlayers.get(awayPlayerNum).getText());
-			
+			int tempAtBats = awayAtBats.get(awayPlayerNum);
+			tempAtBats++;
+			awayAtBats.set(awayPlayerNum, tempAtBats);
+			currentPlayerLabel.setText(awayPlayers.get(awayPlayerNum).getText());
+			playerAtBatsLabel.setText(String.valueOf(awayAtBats.get(awayPlayerNum)));
+			playerHitsLabel.setText(String.valueOf(awayHits.get(awayPlayerNum)));
+			playerWalksLabel.setText(String.valueOf(awayWalks.get(awayPlayerNum)));
+			playerDoublesLabel.setText(String.valueOf(awayDoubles.get(awayPlayerNum)));
+			playerTriplesLabel.setText(String.valueOf(awayTriples.get(awayPlayerNum)));
+			playerHomersLabel.setText(String.valueOf(awayHomers.get(awayPlayerNum)));
 			
 		}
 	}
@@ -117,13 +135,22 @@ public class Assignment6 {
 		if(frameNum % 2 != 0) {//if home inning
 			homePlayers.get(homePlayerNum).setForeground(Color.cyan);
 			homePlayersPanels.get(homePlayerNum).setBackground(Color.black);//set current player to default color and increment to next player
-			homePlayerNum = (homePlayerNum+1) % 9;
+			homePlayerNum = (homePlayerNum + 1 ) % 9;
 			homePlayers.get(homePlayerNum).setForeground(Color.black);
 			homePlayersPanels.get(homePlayerNum).setBackground(Color.cyan);
 			int tempWalks = Integer.valueOf(homeTotalWalks.getText());
 			tempWalks++;//add to home walks and update for home team
 			homeTotalWalks.setText(String.valueOf(tempWalks));
 			currentPlayerLabel.setText(homePlayers.get(homePlayerNum).getText());
+			int tempAtBats = homeAtBats.get(homePlayerNum);
+			tempAtBats++;
+			homeAtBats.set(homePlayerNum, tempAtBats);
+			playerAtBatsLabel.setText(String.valueOf(homeAtBats.get(homePlayerNum)));
+			playerHitsLabel.setText(String.valueOf(homeHits.get(homePlayerNum)));
+			playerWalksLabel.setText(String.valueOf(homeWalks.get(homePlayerNum)));
+			playerDoublesLabel.setText(String.valueOf(homeDoubles.get(homePlayerNum)));
+			playerTriplesLabel.setText(String.valueOf(homeTriples.get(homePlayerNum)));
+			playerHomersLabel.setText(String.valueOf(homeHomers.get(homePlayerNum)));
 		}
 		else
 		{//otherwise away inning
@@ -135,8 +162,16 @@ public class Assignment6 {
 			int tempWalks = Integer.valueOf(awayTotalWalks.getText());
 			tempWalks++;//add to away walks and update for away team
 			awayTotalWalks.setText(String.valueOf(tempWalks));
+			int tempAtBats = awayAtBats.get(awayPlayerNum);
+			tempAtBats++;
+			awayAtBats.set(awayPlayerNum, tempAtBats);
 			currentPlayerLabel.setText(awayPlayers.get(awayPlayerNum).getText());
-			
+			playerAtBatsLabel.setText(String.valueOf(awayAtBats.get(awayPlayerNum)));
+			playerHitsLabel.setText(String.valueOf(awayHits.get(awayPlayerNum)));
+			playerWalksLabel.setText(String.valueOf(awayWalks.get(awayPlayerNum)));
+			playerDoublesLabel.setText(String.valueOf(awayDoubles.get(awayPlayerNum)));
+			playerTriplesLabel.setText(String.valueOf(awayTriples.get(awayPlayerNum)));
+			playerHomersLabel.setText(String.valueOf(awayHomers.get(awayPlayerNum)));
 		}
 	}
 	
@@ -192,6 +227,7 @@ public class Assignment6 {
 				inningsLabels.get((frameNum-1)).setForeground(Color.cyan);//set last frame to default color
 				currentPlayerLabel.setText(null);
 				playResultLabel.setText(playResultLabel.getText()+", End of game");
+				
 				playerAtBatsLabel.setText("");
 				playerHitsLabel.setText("");
 				playerWalksLabel.setText("");
@@ -270,7 +306,17 @@ public class Assignment6 {
 				homePlayerNum = (homePlayerNum+1) % 9;
 				homePlayers.get(homePlayerNum).setForeground(Color.black);
 				homePlayersPanels.get(homePlayerNum).setBackground(Color.cyan);
+				int tempAtBats = homeAtBats.get(homePlayerNum);
+				tempAtBats++;
+				homeAtBats.set(homePlayerNum,tempAtBats);
 				currentPlayerLabel.setText(homePlayers.get(homePlayerNum).getText());
+				playerAtBatsLabel.setText(String.valueOf(homeAtBats.get(homePlayerNum)));
+				playerHitsLabel.setText(String.valueOf(homeHits.get(homePlayerNum)));
+				playerWalksLabel.setText(String.valueOf(homeWalks.get(homePlayerNum)));
+				playerDoublesLabel.setText(String.valueOf(homeDoubles.get(homePlayerNum)));
+				playerTriplesLabel.setText(String.valueOf(homeTriples.get(homePlayerNum)));
+				playerHomersLabel.setText(String.valueOf(homeHomers.get(homePlayerNum)));
+			
 			}
 			else {//for away half-inning
 				awayPlayers.get(awayPlayerNum).setForeground(Color.cyan);//set current player to default colors and increment to next
@@ -282,6 +328,13 @@ public class Assignment6 {
 				int tempAtBats = awayAtBats.get(awayPlayerNum);
 				tempAtBats++;
 				awayAtBats.set(awayPlayerNum,tempAtBats);
+				playerAtBatsLabel.setText(String.valueOf(awayAtBats.get(awayPlayerNum)));
+				playerHitsLabel.setText(String.valueOf(awayHits.get(awayPlayerNum)));
+				playerWalksLabel.setText(String.valueOf(awayWalks.get(awayPlayerNum)));
+				playerDoublesLabel.setText(String.valueOf(awayDoubles.get(awayPlayerNum)));
+				playerTriplesLabel.setText(String.valueOf(awayTriples.get(awayPlayerNum)));
+				playerHomersLabel.setText(String.valueOf(awayHomers.get(awayPlayerNum)));
+			
 			}
 		}
 	}
@@ -298,18 +351,32 @@ public class Assignment6 {
 		
 		Play p = playResult(n1, n2);//Call play result to return which play the random ints represent
 		playResultLabel.setText(n1+" , "+ n2 + " " + p);//Prints playResult to gui 
-
+		
+		
 		//Switch statement, switch on which play has been generated, carry out correct steps for each play
 		switch(p){
 		
 		//HOMER case
 		case HOMER:
-			if(frameNum % 2 != 0) {
+			if(frameNum % 2 == 0) {
 				awayHomers.set( awayPlayerNum, awayHomers.get(awayPlayerNum) + 1);
+				playerAtBatsLabel.setText(String.valueOf(awayAtBats.get((awayPlayerNum+1)%9)));
+				playerHitsLabel.setText(String.valueOf(awayHits.get((awayPlayerNum+1)%9)));
+				playerWalksLabel.setText(String.valueOf(awayWalks.get((awayPlayerNum+1) % 9)));
+				playerDoublesLabel.setText(String.valueOf(awayDoubles.get((awayPlayerNum + 1) % 9)));
+				playerTriplesLabel.setText(String.valueOf(awayTriples.get((awayPlayerNum + 1) % 9)));
+				playerHomersLabel.setText(String.valueOf(awayHomers.get((awayPlayerNum + 1) % 9)));
 			}
 			else {
 				homeHomers.set( homePlayerNum, homeHomers.get(homePlayerNum) + 1);
+				playerAtBatsLabel.setText(String.valueOf(homeAtBats.get((homePlayerNum + 1) % 9)));
+				playerHitsLabel.setText(String.valueOf(homeHits.get((homePlayerNum + 1) % 9)));
+				playerWalksLabel.setText(String.valueOf(homeWalks.get((homePlayerNum + 1) % 9)));
+				playerDoublesLabel.setText(String.valueOf(homeDoubles.get((homePlayerNum + 1) % 9)));
+				playerTriplesLabel.setText(String.valueOf(homeTriples.get((homePlayerNum + 1) % 9)));
+				playerHomersLabel.setText(String.valueOf(homeHomers.get((homePlayerNum + 1) % 9)));
 			}
+			
 			addHit(); //Always results in a hit
 			
 			
@@ -382,7 +449,7 @@ public class Assignment6 {
 
 		//SINGLE case
 		case SINGLE:
-			if(frameNum % 2 != 0) {
+			if(frameNum % 2 == 0) {
 				int tempHits = awayHits.get(awayPlayerNum);
 				tempHits++;
 				awayHits.set( awayPlayerNum, tempHits);
@@ -446,15 +513,16 @@ public class Assignment6 {
 		//DOUBLE case	
 		case DOUBLE:
 			
-			if(frameNum % 2 != 0) {
+			if(frameNum % 2 == 0) {
 				int tempHits = awayHits.get(awayPlayerNum);
 				tempHits++;
 				awayHits.set( awayPlayerNum, tempHits);
 			}
 			else {
 				homeHits.set( homePlayerNum, homeHits.get(homePlayerNum) + 1);
+				
 			}
-			if(frameNum % 2 != 0) {
+			if(frameNum % 2 == 0) {
 				awayDoubles.set( awayPlayerNum, awayDoubles.get(awayPlayerNum) + 1);
 			}
 			else {
@@ -519,7 +587,7 @@ public class Assignment6 {
 		
 		//TRIPLE case
 		case TRIPLE:
-			if(frameNum % 2 != 0) {
+			if(frameNum % 2 == 0) {
 				int tempHits = awayHits.get(awayPlayerNum);
 				tempHits++;
 				awayHits.set( awayPlayerNum, tempHits);
@@ -527,7 +595,7 @@ public class Assignment6 {
 			else {
 				homeHits.set( homePlayerNum, homeHits.get(homePlayerNum) + 1);
 			}
-			if(frameNum % 2 != 0) {
+			if(frameNum % 2 == 0) {
 				awayTriples.set( awayPlayerNum, awayDoubles.get(awayPlayerNum) + 1);
 			}
 			else {
@@ -805,8 +873,9 @@ public class Assignment6 {
 		//WALK case
 		case WALK:
 			
-			if(frameNum % 2 != 0) {
+			if(frameNum % 2 == 0) {
 				awayWalks.set( awayPlayerNum, awayWalks.get(awayPlayerNum) + 1);
+				
 			}
 			else {
 				homeWalks.set( homePlayerNum, homeWalks.get(homePlayerNum) + 1);
