@@ -2800,7 +2800,7 @@ public class Assignment6 {
 				HomeNextButton.setVisible(false);
 			}
 		});
-		RestartButton.setBounds(438, 539, 117, 29);
+		RestartButton.setBounds(435, 494, 117, 29);
 		frame.getContentPane().add(RestartButton);
 	}
 }
