@@ -54,6 +54,20 @@ public class Assignment6 {
 	JLabel playerDoublesLabel = new JLabel("");
 	JLabel playerTriplesLabel = new JLabel("");
 	JLabel playerHomersLabel = new JLabel("");
+	
+	JLabel cumulativeHomeWalksLabel = new JLabel("");
+	JLabel cumulativeHomeHomersLabel = new JLabel("");
+	JLabel cumulativeHomeAtBatsLabel = new JLabel("");
+	JLabel cumulativeHomeHitsLabel = new JLabel("");
+	JLabel cumulativeHomeDoublesLabel = new JLabel("");
+	JLabel cumulativeHomeTriplesLabel = new JLabel("");
+	JLabel cumulativeAwayWalksLabel = new JLabel("");
+	JLabel cumulativeAwayHomersLabel = new JLabel("");
+	JLabel cumulativeAwayTriplesLabel = new JLabel("");
+	JLabel cumulativeAwayDoublesLabel = new JLabel("");
+	JLabel cumulativeAwayAtBatsLabel = new JLabel("");
+	JLabel cumulativeAwayHitsLabel = new JLabel("");
+	
 	//Make JButtons
 	JButton AwayNextButton = new JButton("Next");
 	JButton HomeNextButton = new JButton("Next");
@@ -81,6 +95,20 @@ public class Assignment6 {
 	ArrayList<Integer> awayTriples = new ArrayList<Integer>();
 	ArrayList<Integer> awayHomers = new ArrayList<Integer>();
 	
+	
+	ArrayList<Integer> cumulativeHomeAtBats = new ArrayList<Integer>();
+	ArrayList<Integer> cumulativeHomeHits = new ArrayList<Integer>();
+	ArrayList<Integer> cumulativeHomeWalks = new ArrayList<Integer>();
+	ArrayList<Integer> cumulativeHomeDoubles = new ArrayList<Integer>();
+	ArrayList<Integer> cumulativeHomeTriples = new ArrayList<Integer>();
+	ArrayList<Integer> cumulativeHomeHomers = new ArrayList<Integer>();
+	//away players' stats arrayLists
+	ArrayList<Integer> cumulativeAwayAtBats = new ArrayList<Integer>();
+	ArrayList<Integer> cumulativeAwayHits = new ArrayList<Integer>();
+	ArrayList<Integer> cumulativeAwayWalks = new ArrayList<Integer>();
+	ArrayList<Integer> cumulativeAwayDoubles = new ArrayList<Integer>();
+	ArrayList<Integer> cumulativeAwayTriples = new ArrayList<Integer>();
+	ArrayList<Integer> cumulativeAwayHomers = new ArrayList<Integer>();
 	//Function for adding a hit when an appropriate play is generated
 	private void addHit(){
 		
@@ -1995,6 +2023,156 @@ public class Assignment6 {
 		homePlayers.add(homePlayer8);
 		homePlayers.add(homePlayer9);
 		
+		JPanel cumulativeHomeAtBatsPanel = new JPanel();
+		cumulativeHomeAtBatsPanel.setLayout(null);
+		cumulativeHomeAtBatsPanel.setBorder(new LineBorder(new Color(255, 255, 255)));
+		cumulativeHomeAtBatsPanel.setBackground(Color.BLACK);
+		cumulativeHomeAtBatsPanel.setBounds(0, 333, 20, 20);
+		homeTeamPanel.add(cumulativeHomeAtBatsPanel);
+		
+		cumulativeHomeAtBatsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		cumulativeHomeAtBatsLabel.setForeground(Color.CYAN);
+		cumulativeHomeAtBatsLabel.setBounds(0, 0, 20, 20);
+		cumulativeHomeAtBatsPanel.add(cumulativeHomeAtBatsLabel);
+		
+		JPanel cumulativeHomeHitsPanel = new JPanel();
+		cumulativeHomeHitsPanel.setLayout(null);
+		cumulativeHomeHitsPanel.setBorder(new LineBorder(new Color(255, 255, 255)));
+		cumulativeHomeHitsPanel.setBackground(Color.BLACK);
+		cumulativeHomeHitsPanel.setBounds(32, 333, 20, 20);
+		homeTeamPanel.add(cumulativeHomeHitsPanel);
+		
+	
+		cumulativeHomeHitsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		cumulativeHomeHitsLabel.setForeground(Color.CYAN);
+		cumulativeHomeHitsLabel.setBounds(0, 0, 20, 20);
+		cumulativeHomeHitsPanel.add(cumulativeHomeHitsLabel);
+		
+		JPanel cumulativeHomeDoublesPanel = new JPanel();
+		cumulativeHomeDoublesPanel.setLayout(null);
+		cumulativeHomeDoublesPanel.setBorder(new LineBorder(new Color(255, 255, 255)));
+		cumulativeHomeDoublesPanel.setBackground(Color.BLACK);
+		cumulativeHomeDoublesPanel.setBounds(94, 333, 20, 20);
+		homeTeamPanel.add(cumulativeHomeDoublesPanel);
+		
+		
+		cumulativeHomeDoublesLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		cumulativeHomeDoublesLabel.setForeground(Color.CYAN);
+		cumulativeHomeDoublesLabel.setBounds(0, 0, 20, 20);
+		cumulativeHomeDoublesPanel.add(cumulativeHomeDoublesLabel);
+		
+		JPanel cumulativeHomeTriplesPanel = new JPanel();
+		cumulativeHomeTriplesPanel.setLayout(null);
+		cumulativeHomeTriplesPanel.setBorder(new LineBorder(new Color(255, 255, 255)));
+		cumulativeHomeTriplesPanel.setBackground(Color.BLACK);
+		cumulativeHomeTriplesPanel.setBounds(126, 333, 20, 20);
+		homeTeamPanel.add(cumulativeHomeTriplesPanel);
+		
+
+		cumulativeHomeTriplesLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		cumulativeHomeTriplesLabel.setForeground(Color.CYAN);
+		cumulativeHomeTriplesLabel.setBounds(0, 0, 20, 20);
+		cumulativeHomeTriplesPanel.add(cumulativeHomeTriplesLabel);
+		
+		JPanel cumulativeHomeHomersPanel = new JPanel();
+		cumulativeHomeHomersPanel.setLayout(null);
+		cumulativeHomeHomersPanel.setBorder(new LineBorder(new Color(255, 255, 255)));
+		cumulativeHomeHomersPanel.setBackground(Color.BLACK);
+		cumulativeHomeHomersPanel.setBounds(158, 333, 20, 20);
+		homeTeamPanel.add(cumulativeHomeHomersPanel);
+		
+		
+		
+		cumulativeHomeHomersLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		cumulativeHomeHomersLabel.setForeground(Color.CYAN);
+		cumulativeHomeHomersLabel.setBounds(0, 0, 20, 20);
+		cumulativeHomeHomersPanel.add(cumulativeHomeHomersLabel);
+		
+		JPanel aAtBatsPanel = new JPanel();
+		aAtBatsPanel.setLayout(null);
+		aAtBatsPanel.setBackground(new Color(0, 100, 0));
+		aAtBatsPanel.setBounds(0, 300, 20, 20);
+		homeTeamPanel.add(aAtBatsPanel);
+		
+		JLabel atBatsLabelHome = new JLabel("AB");
+		atBatsLabelHome.setHorizontalAlignment(SwingConstants.CENTER);
+		atBatsLabelHome.setFont(new Font("Tahoma", Font.BOLD, 12));
+		atBatsLabelHome.setBounds(0, 0, 20, 20);
+		aAtBatsPanel.add(atBatsLabelHome);
+		
+		JPanel hitsPanelHome = new JPanel();
+		hitsPanelHome.setLayout(null);
+		hitsPanelHome.setBackground(new Color(0, 100, 0));
+		hitsPanelHome.setBounds(32, 300, 20, 20);
+		homeTeamPanel.add(hitsPanelHome);
+		
+		JLabel hitsLabelHome = new JLabel("H");
+		hitsLabelHome.setHorizontalAlignment(SwingConstants.CENTER);
+		hitsLabelHome.setFont(new Font("Tahoma", Font.BOLD, 12));
+		hitsLabelHome.setBounds(0, 0, 20, 20);
+		hitsPanelHome.add(hitsLabelHome);
+		
+		JPanel doublesPanelHome = new JPanel();
+		doublesPanelHome.setLayout(null);
+		doublesPanelHome.setBackground(new Color(0, 100, 0));
+		doublesPanelHome.setBounds(94, 300, 20, 20);
+		homeTeamPanel.add(doublesPanelHome);
+		
+		JLabel doublesLabelHome = new JLabel("D");
+		doublesLabelHome.setHorizontalAlignment(SwingConstants.CENTER);
+		doublesLabelHome.setFont(new Font("Tahoma", Font.BOLD, 12));
+		doublesLabelHome.setBounds(0, 0, 20, 20);
+		doublesPanelHome.add(doublesLabelHome);
+		
+		JPanel triplesPanelHome = new JPanel();
+		triplesPanelHome.setLayout(null);
+		triplesPanelHome.setBackground(new Color(0, 100, 0));
+		triplesPanelHome.setBounds(126, 300, 20, 20);
+		homeTeamPanel.add(triplesPanelHome);
+		
+		JLabel triplesLabelHome = new JLabel("T");
+		triplesLabelHome.setHorizontalAlignment(SwingConstants.CENTER);
+		triplesLabelHome.setFont(new Font("Tahoma", Font.BOLD, 12));
+		triplesLabelHome.setBounds(0, 0, 20, 20);
+		triplesPanelHome.add(triplesLabelHome);
+		
+		JPanel homersPanelHome = new JPanel();
+		homersPanelHome.setLayout(null);
+		homersPanelHome.setBackground(new Color(0, 100, 0));
+		homersPanelHome.setBounds(158, 300, 20, 20);
+		homeTeamPanel.add(homersPanelHome);
+		
+		JLabel homersLabelHome = new JLabel("HR");
+		homersLabelHome.setHorizontalAlignment(SwingConstants.CENTER);
+		homersLabelHome.setFont(new Font("Tahoma", Font.BOLD, 12));
+		homersLabelHome.setBounds(0, 0, 20, 20);
+		homersPanelHome.add(homersLabelHome);
+		
+		JPanel playerWalksPanelHome = new JPanel();
+		playerWalksPanelHome.setLayout(null);
+		playerWalksPanelHome.setBorder(new LineBorder(new Color(255, 255, 255)));
+		playerWalksPanelHome.setBackground(Color.BLACK);
+		playerWalksPanelHome.setBounds(64, 333, 20, 20);
+		homeTeamPanel.add(playerWalksPanelHome);
+		
+		
+		cumulativeHomeWalksLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		cumulativeHomeWalksLabel.setForeground(Color.CYAN);
+		cumulativeHomeWalksLabel.setBounds(0, 0, 20, 20);
+		playerWalksPanelHome.add(cumulativeHomeWalksLabel);
+		
+		JPanel walksPanelHome = new JPanel();
+		walksPanelHome.setLayout(null);
+		walksPanelHome.setBackground(new Color(0, 100, 0));
+		walksPanelHome.setBounds(64, 300, 20, 20);
+		homeTeamPanel.add(walksPanelHome);
+		
+		JLabel walksLabelHome = new JLabel("BB");
+		walksLabelHome.setHorizontalAlignment(SwingConstants.CENTER);
+		walksLabelHome.setFont(new Font("Tahoma", Font.BOLD, 12));
+		walksLabelHome.setBounds(0, 0, 20, 20);
+		walksPanelHome.add(walksLabelHome);
+		
 		awayPlayers.add(awayPlayer1);//add elements to arraylist
 		awayPlayers.add(awayPlayer2);
 		awayPlayers.add(awayPlayer3);
@@ -2004,6 +2182,156 @@ public class Assignment6 {
 		awayPlayers.add(awayPlayer7);
 		awayPlayers.add(awayPlayer8);
 		awayPlayers.add(awayPlayer9);
+		
+		JPanel cumulativeAwayAtBatsPanel = new JPanel();
+		cumulativeAwayAtBatsPanel.setLayout(null);
+		cumulativeAwayAtBatsPanel.setBorder(new LineBorder(new Color(255, 255, 255)));
+		cumulativeAwayAtBatsPanel.setBackground(Color.BLACK);
+		cumulativeAwayAtBatsPanel.setBounds(0, 340, 20, 20);
+		awayTeamPanel.add(cumulativeAwayAtBatsPanel);
+		
+		
+		cumulativeAwayAtBatsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		cumulativeAwayAtBatsLabel.setForeground(Color.CYAN);
+		cumulativeAwayAtBatsLabel.setBounds(0, 0, 20, 20);
+		cumulativeAwayAtBatsPanel.add(cumulativeAwayAtBatsLabel);
+		
+		JPanel cumulativeAwayHitsPanel = new JPanel();
+		cumulativeAwayHitsPanel.setLayout(null);
+		cumulativeAwayHitsPanel.setBorder(new LineBorder(new Color(255, 255, 255)));
+		cumulativeAwayHitsPanel.setBackground(Color.BLACK);
+		cumulativeAwayHitsPanel.setBounds(32, 340, 20, 20);
+		awayTeamPanel.add(cumulativeAwayHitsPanel);
+		
+		
+		cumulativeAwayHitsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		cumulativeAwayHitsLabel.setForeground(Color.CYAN);
+		cumulativeAwayHitsLabel.setBounds(0, 0, 20, 20);
+		cumulativeAwayHitsPanel.add(cumulativeAwayHitsLabel);
+		
+		JPanel cumulativeAwayDoublesPanel = new JPanel();
+		cumulativeAwayDoublesPanel.setLayout(null);
+		cumulativeAwayDoublesPanel.setBorder(new LineBorder(new Color(255, 255, 255)));
+		cumulativeAwayDoublesPanel.setBackground(Color.BLACK);
+		cumulativeAwayDoublesPanel.setBounds(94, 340, 20, 20);
+		awayTeamPanel.add(cumulativeAwayDoublesPanel);
+		
+	
+		cumulativeAwayDoublesLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		cumulativeAwayDoublesLabel.setForeground(Color.CYAN);
+		cumulativeAwayDoublesLabel.setBounds(0, 0, 20, 20);
+		cumulativeAwayDoublesPanel.add(cumulativeAwayDoublesLabel);
+		
+		JPanel cumulativeAwayTriplesPanel = new JPanel();
+		cumulativeAwayTriplesPanel.setLayout(null);
+		cumulativeAwayTriplesPanel.setBorder(new LineBorder(new Color(255, 255, 255)));
+		cumulativeAwayTriplesPanel.setBackground(Color.BLACK);
+		cumulativeAwayTriplesPanel.setBounds(126, 340, 20, 20);
+		awayTeamPanel.add(cumulativeAwayTriplesPanel);
+		
+	
+		cumulativeAwayTriplesLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		cumulativeAwayTriplesLabel.setForeground(Color.CYAN);
+		cumulativeAwayTriplesLabel.setBounds(0, 0, 20, 20);
+		cumulativeAwayTriplesPanel.add(cumulativeAwayTriplesLabel);
+		
+		JPanel cumulativeAwayHomersPanel = new JPanel();
+		cumulativeAwayHomersPanel.setLayout(null);
+		cumulativeAwayHomersPanel.setBorder(new LineBorder(new Color(255, 255, 255)));
+		cumulativeAwayHomersPanel.setBackground(Color.BLACK);
+		cumulativeAwayHomersPanel.setBounds(158, 340, 20, 20);
+		awayTeamPanel.add(cumulativeAwayHomersPanel);
+		
+
+		cumulativeAwayHomersLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		cumulativeAwayHomersLabel.setForeground(Color.CYAN);
+		cumulativeAwayHomersLabel.setBounds(0, 0, 20, 20);
+		cumulativeAwayHomersPanel.add(cumulativeAwayHomersLabel);
+		
+		JPanel atBatsPanelAway = new JPanel();
+		atBatsPanelAway.setLayout(null);
+		atBatsPanelAway.setBackground(new Color(0, 100, 0));
+		atBatsPanelAway.setBounds(0, 307, 20, 20);
+		awayTeamPanel.add(atBatsPanelAway);
+		
+		JLabel atBatsLabelAway = new JLabel("AB");
+		atBatsLabelAway.setHorizontalAlignment(SwingConstants.CENTER);
+		atBatsLabelAway.setFont(new Font("Tahoma", Font.BOLD, 12));
+		atBatsLabelAway.setBounds(0, 0, 20, 20);
+		atBatsPanelAway.add(atBatsLabelAway);
+		
+		JPanel hitsPanelAway = new JPanel();
+		hitsPanelAway.setLayout(null);
+		hitsPanelAway.setBackground(new Color(0, 100, 0));
+		hitsPanelAway.setBounds(32, 307, 20, 20);
+		awayTeamPanel.add(hitsPanelAway);
+		
+		JLabel hitsLabelAway = new JLabel("H");
+		hitsLabelAway.setHorizontalAlignment(SwingConstants.CENTER);
+		hitsLabelAway.setFont(new Font("Tahoma", Font.BOLD, 12));
+		hitsLabelAway.setBounds(0, 0, 20, 20);
+		hitsPanelAway.add(hitsLabelAway);
+		
+		JPanel doublesPanelAway = new JPanel();
+		doublesPanelAway.setLayout(null);
+		doublesPanelAway.setBackground(new Color(0, 100, 0));
+		doublesPanelAway.setBounds(94, 307, 20, 20);
+		awayTeamPanel.add(doublesPanelAway);
+		
+		JLabel doublesLabelAway = new JLabel("D");
+		doublesLabelAway.setHorizontalAlignment(SwingConstants.CENTER);
+		doublesLabelAway.setFont(new Font("Tahoma", Font.BOLD, 12));
+		doublesLabelAway.setBounds(0, 0, 20, 20);
+		doublesPanelAway.add(doublesLabelAway);
+		
+		JPanel triplesPanelAway = new JPanel();
+		triplesPanelAway.setLayout(null);
+		triplesPanelAway.setBackground(new Color(0, 100, 0));
+		triplesPanelAway.setBounds(126, 307, 20, 20);
+		awayTeamPanel.add(triplesPanelAway);
+		
+		JLabel triplesLabelAway = new JLabel("T");
+		triplesLabelAway.setHorizontalAlignment(SwingConstants.CENTER);
+		triplesLabelAway.setFont(new Font("Tahoma", Font.BOLD, 12));
+		triplesLabelAway.setBounds(0, 0, 20, 20);
+		triplesPanelAway.add(triplesLabelAway);
+		
+		JPanel homersPanelAway = new JPanel();
+		homersPanelAway.setLayout(null);
+		homersPanelAway.setBackground(new Color(0, 100, 0));
+		homersPanelAway.setBounds(158, 307, 20, 20);
+		awayTeamPanel.add(homersPanelAway);
+		
+		JLabel homersLabelAway = new JLabel("HR");
+		homersLabelAway.setHorizontalAlignment(SwingConstants.CENTER);
+		homersLabelAway.setFont(new Font("Tahoma", Font.BOLD, 12));
+		homersLabelAway.setBounds(0, 0, 20, 20);
+		homersPanelAway.add(homersLabelAway);
+		
+		JPanel cumulativeAwayWalksPanel = new JPanel();
+		cumulativeAwayWalksPanel.setLayout(null);
+		cumulativeAwayWalksPanel.setBorder(new LineBorder(new Color(255, 255, 255)));
+		cumulativeAwayWalksPanel.setBackground(Color.BLACK);
+		cumulativeAwayWalksPanel.setBounds(64, 340, 20, 20);
+		awayTeamPanel.add(cumulativeAwayWalksPanel);
+		
+	
+		cumulativeAwayWalksLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		cumulativeAwayWalksLabel.setForeground(Color.CYAN);
+		cumulativeAwayWalksLabel.setBounds(0, 0, 20, 20);
+		cumulativeAwayWalksPanel.add(cumulativeAwayWalksLabel);
+		
+		JPanel walksPanelAway = new JPanel();
+		walksPanelAway.setLayout(null);
+		walksPanelAway.setBackground(new Color(0, 100, 0));
+		walksPanelAway.setBounds(64, 307, 20, 20);
+		awayTeamPanel.add(walksPanelAway);
+		
+		JLabel walksLabelAway = new JLabel("BB");
+		walksLabelAway.setHorizontalAlignment(SwingConstants.CENTER);
+		walksLabelAway.setFont(new Font("Tahoma", Font.BOLD, 12));
+		walksLabelAway.setBounds(0, 0, 20, 20);
+		walksPanelAway.add(walksLabelAway);
 		
 		//Setting up some more panels and text fields
 		JPanel panel = new JPanel();
@@ -2187,7 +2515,7 @@ public class Assignment6 {
 		walksPanel.setBounds(154, 71, 20, 20);
 		displayPanel.add(walksPanel);
 		
-		JLabel walksLabel = new JLabel("W");
+		JLabel walksLabel = new JLabel("BB");
 		walksLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		walksLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		walksLabel.setBounds(0, 0, 20, 20);
