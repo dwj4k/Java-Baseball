@@ -1195,7 +1195,7 @@ public class Assignment6 {
 		homePanel.setBounds(10, 40, 165, 20);
 		scoreboardPanel.add(homePanel);
 		
-		JLabel homeLabel = new JLabel("Home");
+		JLabel homeLabel = new JLabel("Braves");
 		homeLabel.setForeground(Color.CYAN);
 		homeLabel.setBounds(0, 0, 165, 20);
 		homePanel.add(homeLabel);
@@ -1232,7 +1232,7 @@ public class Assignment6 {
 		awayPanel.setBounds(10, 20, 165, 20);
 		scoreboardPanel.add(awayPanel);
 		
-		JLabel awayLabel = new JLabel("Away");
+		JLabel awayLabel = new JLabel("Red Sox");
 		awayLabel.setForeground(Color.CYAN);
 		awayLabel.setBounds(0, 0, 165, 20);
 		awayPanel.add(awayLabel);
@@ -1698,7 +1698,7 @@ public class Assignment6 {
 		awayTeamPanel.add(awayPlayer1Panel);
 		awayPlayer1Panel.setLayout(null);
 		
-		JLabel awayPlayer1 = new JLabel("Away Player 1");
+		JLabel awayPlayer1 = new JLabel("C Arroyo");
 		awayPlayer1.setHorizontalAlignment(SwingConstants.CENTER);
 		awayPlayer1.setForeground(new Color(64, 224, 208));
 		awayPlayer1.setName("");
@@ -1712,7 +1712,7 @@ public class Assignment6 {
 		awayPlayer2Panel.setBounds(10, 40, 160, 20);
 		awayTeamPanel.add(awayPlayer2Panel);
 		
-		JLabel awayPlayer2 = new JLabel("Away Player 2");
+		JLabel awayPlayer2 = new JLabel("C Vazquez");
 		awayPlayer2.setName("");
 		awayPlayer2.setHorizontalAlignment(SwingConstants.CENTER);
 		awayPlayer2.setForeground(new Color(64, 224, 208));
@@ -1726,7 +1726,7 @@ public class Assignment6 {
 		awayPlayer3Panel.setBounds(10, 74, 160, 20);
 		awayTeamPanel.add(awayPlayer3Panel);
 		
-		JLabel awayPlayer3 = new JLabel("Away Player 3");
+		JLabel awayPlayer3 = new JLabel("J Martinez");
 		awayPlayer3.setName("");
 		awayPlayer3.setHorizontalAlignment(SwingConstants.CENTER);
 		awayPlayer3.setForeground(new Color(64, 224, 208));
@@ -1740,7 +1740,7 @@ public class Assignment6 {
 		awayPlayer4Panel.setBounds(10, 104, 160, 20);
 		awayTeamPanel.add(awayPlayer4Panel);
 		
-		JLabel awayPlayer4 = new JLabel("Away Player 4");
+		JLabel awayPlayer4 = new JLabel("X Bogaerts");
 		awayPlayer4.setName("");
 		awayPlayer4.setHorizontalAlignment(SwingConstants.CENTER);
 		awayPlayer4.setForeground(new Color(64, 224, 208));
@@ -1754,7 +1754,7 @@ public class Assignment6 {
 		awayPlayer5Panel.setBounds(10, 134, 160, 20);
 		awayTeamPanel.add(awayPlayer5Panel);
 		
-		JLabel awayPlayer5 = new JLabel("Away Player 5");
+		JLabel awayPlayer5 = new JLabel("T Story");
 		awayPlayer5.setName("");
 		awayPlayer5.setHorizontalAlignment(SwingConstants.CENTER);
 		awayPlayer5.setForeground(new Color(64, 224, 208));
@@ -1768,7 +1768,7 @@ public class Assignment6 {
 		awayPlayer6Panel.setBounds(10, 164, 160, 20);
 		awayTeamPanel.add(awayPlayer6Panel);
 		
-		JLabel awayPlayer6 = new JLabel("Away Player 6");
+		JLabel awayPlayer6 = new JLabel("A Verdugo");
 		awayPlayer6.setName("");
 		awayPlayer6.setHorizontalAlignment(SwingConstants.CENTER);
 		awayPlayer6.setForeground(new Color(64, 224, 208));
@@ -1782,7 +1782,7 @@ public class Assignment6 {
 		awayPlayer7Panel.setBounds(10, 194, 160, 20);
 		awayTeamPanel.add(awayPlayer7Panel);
 		
-		JLabel awayPlayer7 = new JLabel("Away Player 7");
+		JLabel awayPlayer7 = new JLabel("B Dalbec");
 		awayPlayer7.setName("");
 		awayPlayer7.setHorizontalAlignment(SwingConstants.CENTER);
 		awayPlayer7.setForeground(new Color(64, 224, 208));
@@ -1796,7 +1796,7 @@ public class Assignment6 {
 		awayPlayer8Panel.setBounds(10, 224, 160, 20);
 		awayTeamPanel.add(awayPlayer8Panel);
 		
-		JLabel awayPlayer8 = new JLabel("Away Player 8");
+		JLabel awayPlayer8 = new JLabel("K Plawecki");
 		awayPlayer8.setName("");
 		awayPlayer8.setHorizontalAlignment(SwingConstants.CENTER);
 		awayPlayer8.setForeground(new Color(64, 224, 208));
@@ -1810,7 +1810,7 @@ public class Assignment6 {
 		awayPlayer9Panel.setBounds(10, 254, 160, 20);
 		awayTeamPanel.add(awayPlayer9Panel);
 		
-		JLabel awayPlayer9 = new JLabel("Away Player 9");
+		JLabel awayPlayer9 = new JLabel("J Bradley");
 		awayPlayer9.setName("");
 		awayPlayer9.setHorizontalAlignment(SwingConstants.CENTER);
 		awayPlayer9.setForeground(new Color(64, 224, 208));
@@ -1831,7 +1831,7 @@ public class Assignment6 {
 		homePlayer1Panel.setBounds(10, 10, 160, 20);
 		homeTeamPanel.add(homePlayer1Panel);
 		
-		JLabel homePlayer1 = new JLabel("Home Player 1");
+		JLabel homePlayer1 = new JLabel("R Acuna");
 		homePlayer1.setName("");
 		homePlayer1.setHorizontalAlignment(SwingConstants.CENTER);
 		homePlayer1.setForeground(new Color(64, 224, 208));
@@ -1845,7 +1845,7 @@ public class Assignment6 {
 		homePlayer2Panel.setBounds(10, 40, 160, 20);
 		homeTeamPanel.add(homePlayer2Panel);
 		
-		JLabel homePlayer2 = new JLabel("Home Player 2");
+		JLabel homePlayer2 = new JLabel("D Swanson");
 		homePlayer2.setName("");
 		homePlayer2.setHorizontalAlignment(SwingConstants.CENTER);
 		homePlayer2.setForeground(new Color(64, 224, 208));
@@ -1859,7 +1859,7 @@ public class Assignment6 {
 		homePlayer3Panel.setBounds(10, 70, 160, 20);
 		homeTeamPanel.add(homePlayer3Panel);
 		
-		JLabel homePlayer3 = new JLabel("Home Player 3");
+		JLabel homePlayer3 = new JLabel("A Riley");
 		homePlayer3.setName("");
 		homePlayer3.setHorizontalAlignment(SwingConstants.CENTER);
 		homePlayer3.setForeground(new Color(64, 224, 208));
@@ -1873,7 +1873,7 @@ public class Assignment6 {
 		homePlayer4Panel.setBounds(10, 100, 160, 20);
 		homeTeamPanel.add(homePlayer4Panel);
 		
-		JLabel homePlayer4 = new JLabel("Home Player 4");
+		JLabel homePlayer4 = new JLabel("M Olsen");
 		homePlayer4.setName("");
 		homePlayer4.setHorizontalAlignment(SwingConstants.CENTER);
 		homePlayer4.setForeground(new Color(64, 224, 208));
@@ -1887,7 +1887,7 @@ public class Assignment6 {
 		homePlayer5Panel.setBounds(10, 130, 160, 20);
 		homeTeamPanel.add(homePlayer5Panel);
 		
-		JLabel homePlayer5 = new JLabel("Home Player 5");
+		JLabel homePlayer5 = new JLabel("T d'Arnaud");
 		homePlayer5.setName("");
 		homePlayer5.setHorizontalAlignment(SwingConstants.CENTER);
 		homePlayer5.setForeground(new Color(64, 224, 208));
@@ -1901,7 +1901,7 @@ public class Assignment6 {
 		homePlayer6Panel.setBounds(10, 160, 160, 20);
 		homeTeamPanel.add(homePlayer6Panel);
 		
-		JLabel homePlayer6 = new JLabel("Home Player 6");
+		JLabel homePlayer6 = new JLabel("O Albies");
 		homePlayer6.setName("");
 		homePlayer6.setHorizontalAlignment(SwingConstants.CENTER);
 		homePlayer6.setForeground(new Color(64, 224, 208));
@@ -1915,7 +1915,7 @@ public class Assignment6 {
 		homePlayer7Panel.setBounds(10, 190, 160, 20);
 		homeTeamPanel.add(homePlayer7Panel);
 		
-		JLabel homePlayer7 = new JLabel("Home Player 7");
+		JLabel homePlayer7 = new JLabel("W Contreras");
 		homePlayer7.setName("");
 		homePlayer7.setHorizontalAlignment(SwingConstants.CENTER);
 		homePlayer7.setForeground(new Color(64, 224, 208));
@@ -1929,7 +1929,7 @@ public class Assignment6 {
 		homePlayer8Panel.setBounds(10, 220, 160, 20);
 		homeTeamPanel.add(homePlayer8Panel);
 		
-		JLabel homePlayer8 = new JLabel("Home Player 8");
+		JLabel homePlayer8 = new JLabel("A Duvall");
 		homePlayer8.setName("");
 		homePlayer8.setHorizontalAlignment(SwingConstants.CENTER);
 		homePlayer8.setForeground(new Color(64, 224, 208));
@@ -1943,7 +1943,7 @@ public class Assignment6 {
 		homePlayer9Panel.setBounds(10, 250, 160, 20);
 		homeTeamPanel.add(homePlayer9Panel);
 		
-		JLabel homePlayer9 = new JLabel("Home Player 9");
+		JLabel homePlayer9 = new JLabel("M Harris II");
 		homePlayer9.setName("");
 		homePlayer9.setHorizontalAlignment(SwingConstants.CENTER);
 		homePlayer9.setForeground(new Color(64, 224, 208));
