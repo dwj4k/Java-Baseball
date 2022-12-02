@@ -1952,9 +1952,6 @@ public class Assignment6 {
 		
 		//Here begins more handwritten code
 		
-		
-		
-		
 		innings.add(awayScorePanel1);//add elements to arraylist
 		innings.add(homeScorePanel1);
 		innings.add(awayScorePanel2);
@@ -2696,6 +2693,114 @@ public class Assignment6 {
 		HomeNextButton.setBounds(651, 493, 117, 29);
 		frame.getContentPane().add(HomeNextButton);		
 		
-		
+		JButton RestartButton = new JButton("Restart");
+		RestartButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//Zero stuff out for new run of game, also change elements back to default colors
+				outs.setText("0");//set text and colors for tracking boxes
+				outs.setForeground(Color.cyan);
+				homeTotalRuns.setText("0");
+				homeTotalRuns.setForeground(Color.cyan);
+				awayTotalRuns.setText("0");
+				awayTotalRuns.setForeground(Color.cyan);
+				homeTotalHits.setText("0");
+				homeTotalHits.setForeground(Color.cyan);
+				awayTotalHits.setText("0");
+				awayTotalHits.setForeground(Color.cyan);
+				homeTotalWalks.setText("0");
+				homeTotalWalks.setForeground(Color.cyan);
+				awayTotalWalks.setText("0");
+				awayTotalWalks.setForeground(Color.cyan);
+				awayPlayer1Panel.setBackground(Color.cyan);//set away player colors and scorepanel colors
+				awayPlayer1.setForeground(Color.black);
+				awayScorePanel1.setBackground(Color.cyan);
+				HomeNextButton.setEnabled(false);//Game starts on away inning, so disable home next button
+				HomeNextButton.setVisible(false);
+				homePlayers.get(homePlayerNum).setForeground(Color.cyan);
+				homePlayersPanels.get(homePlayerNum).setBackground(Color.black);
+				awayPlayers.get(awayPlayerNum).setForeground(Color.cyan);
+				awayPlayersPanels.get(awayPlayerNum).setBackground(Color.black);
+				
+				//Set all per inning scores back to null
+				awayInning1.setText(null);
+				homeInning1.setText(null);
+				awayInning2.setText(null);
+				homeInning2.setText(null);
+				awayInning3.setText(null);
+				homeInning3.setText(null);
+				awayInning4.setText(null);
+				homeInning4.setText(null);
+				awayInning5.setText(null);
+				homeInning5.setText(null);
+				awayInning6.setText(null);
+				homeInning6.setText(null);
+				awayInning7.setText(null);
+				homeInning7.setText(null);
+				awayInning8.setText(null);
+				homeInning8.setText(null);
+				awayInning9.setText(null);
+				homeInning9.setText(null);
+				
+				//Set per inning score boxes back to black
+				homeScorePanel1.setBackground(Color.black);
+				awayScorePanel2.setBackground(Color.black);
+				homeScorePanel2.setBackground(Color.black);
+				awayScorePanel3.setBackground(Color.black);
+				homeScorePanel3.setBackground(Color.black);
+				awayScorePanel4.setBackground(Color.black);
+				homeScorePanel4.setBackground(Color.black);
+				awayScorePanel5.setBackground(Color.black);
+				homeScorePanel5.setBackground(Color.black);
+				awayScorePanel6.setBackground(Color.black);
+				homeScorePanel6.setBackground(Color.black);
+				awayScorePanel7.setBackground(Color.black);
+				homeScorePanel7.setBackground(Color.black);
+				awayScorePanel8.setBackground(Color.black);
+				homeScorePanel8.setBackground(Color.black);
+				awayScorePanel9.setBackground(Color.black);
+				homeScorePanel9.setBackground(Color.black);
+				
+				//Set text in per inning score boxes back to "" because it will not 
+				//set innings with no score to 0 after the inning
+				awayInning1.setText("");
+				homeInning1.setText("");
+				awayInning2.setText("");
+				homeInning2.setText("");
+				awayInning3.setText("");
+				homeInning3.setText("");
+				awayInning4.setText("");
+				homeInning4.setText("");
+				awayInning5.setText("");
+				homeInning5.setText("");
+				awayInning6.setText("");
+				homeInning6.setText("");
+				awayInning7.setText("");
+				homeInning7.setText("");
+				awayInning8.setText("");
+				homeInning8.setText("");
+				awayInning9.setText("");
+				homeInning9.setText("");
+				
+				//Set more stuff back to 0
+				frameNum = 0;
+				awayPlayerNum = 0;
+				homePlayerNum = 0;
+				homeNumRuns = 0;
+				awayNumRuns = 0;
+				numOuts = 0;
+				base1 = false;
+				base2 = false;
+				base3 = false;
+				
+				//Set next buttons the correct way
+				AwayNextButton.setEnabled(true);
+				AwayNextButton.setVisible(true);
+				HomeNextButton.setEnabled(false);
+				HomeNextButton.setVisible(false);
+			}
+		});
+		RestartButton.setBounds(438, 539, 117, 29);
+		frame.getContentPane().add(RestartButton);
 	}
 }
