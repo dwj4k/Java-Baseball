@@ -117,20 +117,6 @@ public class Assignment6 {
 	ArrayList<Integer> cumulativeAwayTriples = new ArrayList<Integer>();
 	ArrayList<Integer> cumulativeAwayHomers = new ArrayList<Integer>();
 	
-	
-	ArrayList<Integer> cumulativeHomeAtBats = new ArrayList<Integer>();
-	ArrayList<Integer> cumulativeHomeHits = new ArrayList<Integer>();
-	ArrayList<Integer> cumulativeHomeWalks = new ArrayList<Integer>();
-	ArrayList<Integer> cumulativeHomeDoubles = new ArrayList<Integer>();
-	ArrayList<Integer> cumulativeHomeTriples = new ArrayList<Integer>();
-	ArrayList<Integer> cumulativeHomeHomers = new ArrayList<Integer>();
-	//away players' stats arrayLists
-	ArrayList<Integer> cumulativeAwayAtBats = new ArrayList<Integer>();
-	ArrayList<Integer> cumulativeAwayHits = new ArrayList<Integer>();
-	ArrayList<Integer> cumulativeAwayWalks = new ArrayList<Integer>();
-	ArrayList<Integer> cumulativeAwayDoubles = new ArrayList<Integer>();
-	ArrayList<Integer> cumulativeAwayTriples = new ArrayList<Integer>();
-	ArrayList<Integer> cumulativeAwayHomers = new ArrayList<Integer>();
 	//Function for adding a hit when an appropriate play is generated
 	private void addHit(){
 		
