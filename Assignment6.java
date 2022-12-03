@@ -8,7 +8,7 @@ import java.awt.EventQueue;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.Color;
+import java.awt.*;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -18,14 +18,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 import javax.swing.JTextField;
 import java.awt.Component;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.BufferedWriter;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.io.*;
+//import java.lang.IllegalStateException;
+import java.util.*;//print to files
+import javax.swing.*;
+
 
 public class Assignment6 {
 	//variable declarations
@@ -45,7 +42,8 @@ public class Assignment6 {
 	private JTextField txtBase2;
 	private JTextField txtBase3;
 	private JTextField txtHome;
-	
+	private static Scanner input;
+	private static Scanner lineCounter;
 	//Make JLables
 	JLabel homeTotalHits = new JLabel("");
 	JLabel awayTotalHits = new JLabel("");
@@ -62,6 +60,7 @@ public class Assignment6 {
 	JLabel playerDoublesLabel = new JLabel("");
 	JLabel playerTriplesLabel = new JLabel("");
 	JLabel playerHomersLabel = new JLabel("");
+	JButton RestartButton = new JButton("Restart");
 	
 	JLabel cumulativeHomeWalksLabel = new JLabel("");
 	JLabel cumulativeHomeHomersLabel = new JLabel("");
@@ -102,21 +101,21 @@ public class Assignment6 {
 	ArrayList<Integer> awayDoubles = new ArrayList<Integer>();
 	ArrayList<Integer> awayTriples = new ArrayList<Integer>();
 	ArrayList<Integer> awayHomers = new ArrayList<Integer>();
-	//Home players cumulative stats arrayLists
+	
+	
 	ArrayList<Integer> cumulativeHomeAtBats = new ArrayList<Integer>();
 	ArrayList<Integer> cumulativeHomeHits = new ArrayList<Integer>();
 	ArrayList<Integer> cumulativeHomeWalks = new ArrayList<Integer>();
 	ArrayList<Integer> cumulativeHomeDoubles = new ArrayList<Integer>();
 	ArrayList<Integer> cumulativeHomeTriples = new ArrayList<Integer>();
 	ArrayList<Integer> cumulativeHomeHomers = new ArrayList<Integer>();
-	// Away players cumulative stats arrayLists
+	//away players' stats arrayLists
 	ArrayList<Integer> cumulativeAwayAtBats = new ArrayList<Integer>();
 	ArrayList<Integer> cumulativeAwayHits = new ArrayList<Integer>();
 	ArrayList<Integer> cumulativeAwayWalks = new ArrayList<Integer>();
 	ArrayList<Integer> cumulativeAwayDoubles = new ArrayList<Integer>();
 	ArrayList<Integer> cumulativeAwayTriples = new ArrayList<Integer>();
 	ArrayList<Integer> cumulativeAwayHomers = new ArrayList<Integer>();
-	
 	//Function for adding a hit when an appropriate play is generated
 	private void addHit(){
 		
@@ -133,16 +132,21 @@ public class Assignment6 {
 			int tempAtBats = homeAtBats.get(homePlayerNum);
 			tempAtBats++;
 			homeAtBats.set(homePlayerNum, tempAtBats);
-			// Update cumulative stats
-			int cumTempAtBats = cumulativeHomeAtBats.get(homePlayerNum);
-			cumTempAtBats++;
-			cumulativeHomeAtBats.set(homePlayerNum, cumTempAtBats);
+			cumulativeHomeAtBats.set(homePlayerNum, cumulativeHomeAtBats.get(homePlayerNum)+1);
+			
 			playerAtBatsLabel.setText(String.valueOf(homeAtBats.get(homePlayerNum)));
 			playerHitsLabel.setText(String.valueOf(homeHits.get(homePlayerNum)));
 			playerWalksLabel.setText(String.valueOf(homeWalks.get(homePlayerNum)));
 			playerDoublesLabel.setText(String.valueOf(homeDoubles.get(homePlayerNum)));
 			playerTriplesLabel.setText(String.valueOf(homeTriples.get(homePlayerNum)));
 			playerHomersLabel.setText(String.valueOf(homeHomers.get(homePlayerNum)));
+			
+			cumulativeHomeAtBatsLabel.setText(String.valueOf(cumulativeHomeAtBats.get(homePlayerNum)));
+			cumulativeHomeHitsLabel.setText(String.valueOf(cumulativeHomeHits.get(homePlayerNum)));
+			cumulativeHomeWalksLabel.setText(String.valueOf(cumulativeHomeWalks.get(homePlayerNum)));
+			cumulativeHomeDoublesLabel.setText(String.valueOf(cumulativeHomeDoubles.get(homePlayerNum)));
+			cumulativeHomeTriplesLabel.setText(String.valueOf(cumulativeHomeTriples.get(homePlayerNum)));
+			cumulativeHomeHomersLabel.setText(String.valueOf(cumulativeHomeHomers.get(homePlayerNum)));
 		}
 		
 		else{//otherwise away frame
@@ -158,12 +162,8 @@ public class Assignment6 {
 			int tempAtBats = awayAtBats.get(awayPlayerNum);
 			tempAtBats++;
 			awayAtBats.set(awayPlayerNum, tempAtBats);
-			// Update cumulative stats
-			int cumTempAtBats = cumulativeAwayAtBats.get(awayPlayerNum);
-			cumTempAtBats++;
-			if (cumTempAtBats < tempAtBats)
-				cumTempAtBats = tempAtBats;
-			cumulativeAwayAtBats.set(awayPlayerNum, cumTempAtBats);
+			cumulativeAwayAtBats.set(awayPlayerNum,cumulativeAwayAtBats.get(awayPlayerNum)+1);
+			
 			currentPlayerLabel.setText(awayPlayers.get(awayPlayerNum).getText());
 			playerAtBatsLabel.setText(String.valueOf(awayAtBats.get(awayPlayerNum)));
 			playerHitsLabel.setText(String.valueOf(awayHits.get(awayPlayerNum)));
@@ -171,6 +171,13 @@ public class Assignment6 {
 			playerDoublesLabel.setText(String.valueOf(awayDoubles.get(awayPlayerNum)));
 			playerTriplesLabel.setText(String.valueOf(awayTriples.get(awayPlayerNum)));
 			playerHomersLabel.setText(String.valueOf(awayHomers.get(awayPlayerNum)));
+			
+			cumulativeAwayAtBatsLabel.setText(String.valueOf(cumulativeAwayAtBats.get(awayPlayerNum)));
+			cumulativeAwayHitsLabel.setText(String.valueOf(cumulativeAwayHits.get(awayPlayerNum)));
+			cumulativeAwayWalksLabel.setText(String.valueOf(cumulativeAwayWalks.get(awayPlayerNum)));
+			cumulativeAwayDoublesLabel.setText(String.valueOf(cumulativeAwayDoubles.get(awayPlayerNum)));
+			cumulativeAwayTriplesLabel.setText(String.valueOf(cumulativeAwayTriples.get(awayPlayerNum)));
+			cumulativeAwayHomersLabel.setText(String.valueOf(cumulativeAwayHomers.get(awayPlayerNum)));
 			
 		}
 	}
@@ -190,16 +197,22 @@ public class Assignment6 {
 			currentPlayerLabel.setText(homePlayers.get(homePlayerNum).getText());
 			int tempAtBats = homeAtBats.get(homePlayerNum);
 			tempAtBats++;
-			int cumTempAtBats = cumulativeHomeAtBats.get(homePlayerNum);
-			cumTempAtBats++;
 			homeAtBats.set(homePlayerNum, tempAtBats);
-			cumulativeHomeAtBats.set(homePlayerNum, cumTempAtBats); // update cumulative stats
+			cumulativeHomeAtBats.set(homePlayerNum, cumulativeHomeAtBats.get(homePlayerNum)+1);
 			playerAtBatsLabel.setText(String.valueOf(homeAtBats.get(homePlayerNum)));
 			playerHitsLabel.setText(String.valueOf(homeHits.get(homePlayerNum)));
 			playerWalksLabel.setText(String.valueOf(homeWalks.get(homePlayerNum)));
 			playerDoublesLabel.setText(String.valueOf(homeDoubles.get(homePlayerNum)));
 			playerTriplesLabel.setText(String.valueOf(homeTriples.get(homePlayerNum)));
 			playerHomersLabel.setText(String.valueOf(homeHomers.get(homePlayerNum)));
+		
+			cumulativeHomeAtBatsLabel.setText(String.valueOf(cumulativeHomeAtBats.get(homePlayerNum)));
+			cumulativeHomeHitsLabel.setText(String.valueOf(cumulativeHomeHits.get(homePlayerNum)));
+			cumulativeHomeWalksLabel.setText(String.valueOf(cumulativeHomeWalks.get(homePlayerNum)));
+			cumulativeHomeDoublesLabel.setText(String.valueOf(cumulativeHomeDoubles.get(homePlayerNum)));
+			cumulativeHomeTriplesLabel.setText(String.valueOf(cumulativeHomeTriples.get(homePlayerNum)));
+			cumulativeHomeHomersLabel.setText(String.valueOf(cumulativeHomeHomers.get(homePlayerNum)));
+		
 		}
 		else
 		{//otherwise away inning
@@ -213,10 +226,8 @@ public class Assignment6 {
 			awayTotalWalks.setText(String.valueOf(tempWalks));
 			int tempAtBats = awayAtBats.get(awayPlayerNum);
 			tempAtBats++;
-			int cumTempAtBats = cumulativeAwayAtBats.get(awayPlayerNum);
-			cumTempAtBats++;
 			awayAtBats.set(awayPlayerNum, tempAtBats);
-			cumulativeAwayAtBats.set(awayPlayerNum, cumTempAtBats); // Update cumulative stats
+			cumulativeAwayAtBats.set(awayPlayerNum,cumulativeAwayAtBats.get(awayPlayerNum)+1);
 			currentPlayerLabel.setText(awayPlayers.get(awayPlayerNum).getText());
 			playerAtBatsLabel.setText(String.valueOf(awayAtBats.get(awayPlayerNum)));
 			playerHitsLabel.setText(String.valueOf(awayHits.get(awayPlayerNum)));
@@ -224,6 +235,14 @@ public class Assignment6 {
 			playerDoublesLabel.setText(String.valueOf(awayDoubles.get(awayPlayerNum)));
 			playerTriplesLabel.setText(String.valueOf(awayTriples.get(awayPlayerNum)));
 			playerHomersLabel.setText(String.valueOf(awayHomers.get(awayPlayerNum)));
+		
+			cumulativeAwayAtBatsLabel.setText(String.valueOf(cumulativeAwayAtBats.get(awayPlayerNum)));
+			cumulativeAwayHitsLabel.setText(String.valueOf(cumulativeAwayHits.get(awayPlayerNum)));
+			cumulativeAwayWalksLabel.setText(String.valueOf(cumulativeAwayWalks.get(awayPlayerNum)));
+			cumulativeAwayDoublesLabel.setText(String.valueOf(cumulativeAwayDoubles.get(awayPlayerNum)));
+			cumulativeAwayTriplesLabel.setText(String.valueOf(cumulativeAwayTriples.get(awayPlayerNum)));
+			cumulativeAwayHomersLabel.setText(String.valueOf(cumulativeAwayHomers.get(awayPlayerNum)));
+			
 		}
 	}
 	
@@ -259,45 +278,6 @@ public class Assignment6 {
 		}
 
 	}
-
-	private void writeToFile(String Path){
-		String FilePath = Path;
-		try{
-			File cumulativeFile = new File(FilePath);
-			if (!cumulativeFile.exists()){
-				cumulativeFile.createNewFile();
-			}
-			BufferedWriter bw = new BufferedWriter((new FileWriter(FilePath)));
-			bw.write(cumulativeAwayAtBats.toString());
-			bw.newLine();
-			bw.write(cumulativeAwayHits.toString());
-			bw.newLine();
-			bw.write(cumulativeAwayWalks.toString());
-			bw.newLine();
-			bw.write(cumulativeAwayDoubles.toString());
-			bw.newLine();
-			bw.write(cumulativeAwayTriples.toString());
-			bw.newLine();
-			bw.write(cumulativeAwayHomers.toString());
-			bw.newLine();
-			bw.write(cumulativeHomeAtBats.toString());
-			bw.newLine();
-			bw.write(cumulativeHomeHits.toString());
-			bw.newLine();
-			bw.write(cumulativeHomeWalks.toString());
-			bw.newLine();
-			bw.write(cumulativeHomeDoubles.toString());
-			bw.newLine();
-			bw.write(cumulativeHomeTriples.toString());
-			bw.newLine();
-			bw.write(cumulativeHomeHomers.toString());
-			bw.newLine();
-			bw.flush();
-			bw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		  }
-	}
 	
 	//Function for adding an out when an appropriate play is generated
 	private void addOut(){
@@ -318,7 +298,6 @@ public class Assignment6 {
 				inningsLabels.get((frameNum-1)).setForeground(Color.cyan);//set last frame to default color
 				currentPlayerLabel.setText(null);
 				playResultLabel.setText(playResultLabel.getText()+", End of game");
-				writeToFile("F:\\Repositories\\Java-Baseball\\gameStats.txt"); // Change later
 				
 				playerAtBatsLabel.setText("");
 				playerHitsLabel.setText("");
@@ -326,6 +305,24 @@ public class Assignment6 {
 				playerDoublesLabel.setText("");
 				playerTriplesLabel.setText("");
 				playerHomersLabel.setText("");
+				
+				cumulativeHomeAtBatsLabel.setText("");
+				cumulativeHomeHitsLabel.setText("");
+				cumulativeHomeWalksLabel.setText("");
+				cumulativeHomeDoublesLabel.setText("");
+				cumulativeHomeTriplesLabel.setText("");
+				cumulativeHomeHomersLabel.setText("");
+			
+
+				cumulativeAwayAtBatsLabel.setText("");
+				cumulativeAwayHitsLabel.setText("");
+				cumulativeAwayWalksLabel.setText("");
+				cumulativeAwayDoublesLabel.setText("");
+				cumulativeAwayTriplesLabel.setText("");
+				cumulativeAwayHomersLabel.setText("");
+			
+				outputCumulativeAway();
+				outputCumulativeHome();
 			}
 			else if(frameNum % 2 != 0) {//if inning not over and away team
 				playResultLabel.setText(playResultLabel.getText()+", End of frame");//Prints playResult to gui
@@ -351,16 +348,30 @@ public class Assignment6 {
 				
 				int tempAtBats = homeAtBats.get(homePlayerNum);
 				tempAtBats++;
-				int cumTempAtBats = cumulativeHomeAtBats.get(homePlayerNum);
-				cumTempAtBats++;
 				homeAtBats.set(homePlayerNum,tempAtBats);
-				cumulativeHomeAtBats.set(homePlayerNum, cumTempAtBats);
+				cumulativeHomeAtBats.set(homePlayerNum, cumulativeHomeAtBats.get(homePlayerNum)+1);
 				playerAtBatsLabel.setText(String.valueOf(homeAtBats.get(homePlayerNum)));
 				playerHitsLabel.setText(String.valueOf(homeHits.get(homePlayerNum)));
 				playerWalksLabel.setText(String.valueOf(homeWalks.get(homePlayerNum)));
 				playerDoublesLabel.setText(String.valueOf(homeDoubles.get(homePlayerNum)));
 				playerTriplesLabel.setText(String.valueOf(homeTriples.get(homePlayerNum)));
 				playerHomersLabel.setText(String.valueOf(homeHomers.get(homePlayerNum)));
+				
+
+				cumulativeAwayAtBatsLabel.setText("");
+				cumulativeAwayHitsLabel.setText("");
+				cumulativeAwayWalksLabel.setText("");
+				cumulativeAwayDoublesLabel.setText("");
+				cumulativeAwayTriplesLabel.setText("");
+				cumulativeAwayHomersLabel.setText("");
+				
+				cumulativeHomeAtBatsLabel.setText(String.valueOf(cumulativeHomeAtBats.get(homePlayerNum)));
+				cumulativeHomeHitsLabel.setText(String.valueOf(cumulativeHomeHits.get(homePlayerNum)));
+				cumulativeHomeWalksLabel.setText(String.valueOf(cumulativeHomeWalks.get(homePlayerNum)));
+				cumulativeHomeDoublesLabel.setText(String.valueOf(cumulativeHomeDoubles.get(homePlayerNum)));
+				cumulativeHomeTriplesLabel.setText(String.valueOf(cumulativeHomeTriples.get(homePlayerNum)));
+				cumulativeHomeHomersLabel.setText(String.valueOf(cumulativeHomeHomers.get(homePlayerNum)));
+			
 			}
 			else {
 				if(inningsLabels.get((frameNum-1)).getText() == ""){
@@ -384,16 +395,31 @@ public class Assignment6 {
 				
 				int tempAtBats = awayAtBats.get(awayPlayerNum);
 				tempAtBats++;
-				int cumTempAtBats = cumulativeAwayAtBats.get(awayPlayerNum);
-				cumTempAtBats++;
 				awayAtBats.set(awayPlayerNum,tempAtBats);
-				cumulativeAwayAtBats.set(awayPlayerNum,cumTempAtBats);
+				cumulativeAwayAtBats.set(awayPlayerNum,cumulativeAwayAtBats.get(awayPlayerNum)+1);
 				playerAtBatsLabel.setText(String.valueOf(awayAtBats.get(awayPlayerNum)));
 				playerHitsLabel.setText(String.valueOf(awayHits.get(awayPlayerNum)));
 				playerWalksLabel.setText(String.valueOf(awayWalks.get(awayPlayerNum)));
 				playerDoublesLabel.setText(String.valueOf(awayDoubles.get(awayPlayerNum)));
 				playerTriplesLabel.setText(String.valueOf(awayTriples.get(awayPlayerNum)));
 				playerHomersLabel.setText(String.valueOf(awayHomers.get(awayPlayerNum)));
+				
+
+				cumulativeHomeAtBatsLabel.setText("");
+				cumulativeHomeHitsLabel.setText("");
+				cumulativeHomeWalksLabel.setText("");
+				cumulativeHomeDoublesLabel.setText("");
+				cumulativeHomeTriplesLabel.setText("");
+				cumulativeHomeHomersLabel.setText("");
+			
+				
+				cumulativeAwayAtBatsLabel.setText(String.valueOf(cumulativeAwayAtBats.get(awayPlayerNum)));
+				cumulativeAwayHitsLabel.setText(String.valueOf(cumulativeAwayHits.get(awayPlayerNum)));
+				cumulativeAwayWalksLabel.setText(String.valueOf(cumulativeAwayWalks.get(awayPlayerNum)));
+				cumulativeAwayDoublesLabel.setText(String.valueOf(cumulativeAwayDoubles.get(awayPlayerNum)));
+				cumulativeAwayTriplesLabel.setText(String.valueOf(cumulativeAwayTriples.get(awayPlayerNum)));
+				cumulativeAwayHomersLabel.setText(String.valueOf(cumulativeAwayHomers.get(awayPlayerNum)));
+				
 			}	
 		}
 		else {//if adding an out and inning not over
@@ -406,10 +432,8 @@ public class Assignment6 {
 				homePlayersPanels.get(homePlayerNum).setBackground(Color.cyan);
 				int tempAtBats = homeAtBats.get(homePlayerNum);
 				tempAtBats++;
-				int cumTempAtBats = cumulativeHomeAtBats.get(homePlayerNum);
-				cumTempAtBats++;
 				homeAtBats.set(homePlayerNum,tempAtBats);
-				cumulativeHomeAtBats.set(homePlayerNum,cumTempAtBats); // update cumulative stats
+				cumulativeHomeAtBats.set(homePlayerNum, cumulativeHomeAtBats.get(homePlayerNum)+1);
 				currentPlayerLabel.setText(homePlayers.get(homePlayerNum).getText());
 				playerAtBatsLabel.setText(String.valueOf(homeAtBats.get(homePlayerNum)));
 				playerHitsLabel.setText(String.valueOf(homeHits.get(homePlayerNum)));
@@ -418,6 +442,7 @@ public class Assignment6 {
 				playerTriplesLabel.setText(String.valueOf(homeTriples.get(homePlayerNum)));
 				playerHomersLabel.setText(String.valueOf(homeHomers.get(homePlayerNum)));
 			
+				
 			}
 			else {//for away half-inning
 				awayPlayers.get(awayPlayerNum).setForeground(Color.cyan);//set current player to default colors and increment to next
@@ -428,10 +453,8 @@ public class Assignment6 {
 				currentPlayerLabel.setText(awayPlayers.get(awayPlayerNum).getText());
 				int tempAtBats = awayAtBats.get(awayPlayerNum);
 				tempAtBats++;
-				int cumTempAtBats = cumulativeAwayAtBats.get(awayPlayerNum);
-				cumTempAtBats++;
 				awayAtBats.set(awayPlayerNum,tempAtBats);
-				cumulativeAwayAtBats.set(awayPlayerNum,cumTempAtBats); // update cumulative stats
+				cumulativeAwayAtBats.set(awayPlayerNum,cumulativeAwayAtBats.get(awayPlayerNum)+1);
 				playerAtBatsLabel.setText(String.valueOf(awayAtBats.get(awayPlayerNum)));
 				playerHitsLabel.setText(String.valueOf(awayHits.get(awayPlayerNum)));
 				playerWalksLabel.setText(String.valueOf(awayWalks.get(awayPlayerNum)));
@@ -439,6 +462,13 @@ public class Assignment6 {
 				playerTriplesLabel.setText(String.valueOf(awayTriples.get(awayPlayerNum)));
 				playerHomersLabel.setText(String.valueOf(awayHomers.get(awayPlayerNum)));
 			
+				cumulativeAwayAtBatsLabel.setText(String.valueOf(cumulativeAwayAtBats.get(awayPlayerNum)));
+				cumulativeAwayHitsLabel.setText(String.valueOf(cumulativeAwayHits.get(awayPlayerNum)));
+				cumulativeAwayWalksLabel.setText(String.valueOf(cumulativeAwayWalks.get(awayPlayerNum)));
+				cumulativeAwayDoublesLabel.setText(String.valueOf(cumulativeAwayDoubles.get(awayPlayerNum)));
+				cumulativeAwayTriplesLabel.setText(String.valueOf(cumulativeAwayTriples.get(awayPlayerNum)));
+				cumulativeAwayHomersLabel.setText(String.valueOf(cumulativeAwayHomers.get(awayPlayerNum)));
+				
 			}
 		}
 	}
@@ -463,28 +493,41 @@ public class Assignment6 {
 		//HOMER case
 		case HOMER:
 			if(frameNum % 2 == 0) {
-				int tempHomers = cumulativeAwayHomers.get(awayPlayerNum);
-				tempHomers++;
 				awayHomers.set( awayPlayerNum, awayHomers.get(awayPlayerNum) + 1);
-				cumulativeAwayHomers.set(awayPlayerNum, tempHomers); // Update cumulative stat
+				cumulativeAwayHomers.set( awayPlayerNum, cumulativeAwayHomers.get(awayPlayerNum) + 1);
+				
 				playerAtBatsLabel.setText(String.valueOf(awayAtBats.get((awayPlayerNum+1)%9)));
 				playerHitsLabel.setText(String.valueOf(awayHits.get((awayPlayerNum+1)%9)));
 				playerWalksLabel.setText(String.valueOf(awayWalks.get((awayPlayerNum+1) % 9)));
 				playerDoublesLabel.setText(String.valueOf(awayDoubles.get((awayPlayerNum + 1) % 9)));
 				playerTriplesLabel.setText(String.valueOf(awayTriples.get((awayPlayerNum + 1) % 9)));
 				playerHomersLabel.setText(String.valueOf(awayHomers.get((awayPlayerNum + 1) % 9)));
+				
+				cumulativeAwayAtBatsLabel.setText(String.valueOf(cumulativeAwayAtBats.get(awayPlayerNum)));
+				cumulativeAwayHitsLabel.setText(String.valueOf(cumulativeAwayHits.get(awayPlayerNum)));
+				cumulativeAwayWalksLabel.setText(String.valueOf(cumulativeAwayWalks.get(awayPlayerNum)));
+				cumulativeAwayDoublesLabel.setText(String.valueOf(cumulativeAwayDoubles.get(awayPlayerNum)));
+				cumulativeAwayTriplesLabel.setText(String.valueOf(cumulativeAwayTriples.get(awayPlayerNum)));
+				cumulativeAwayHomersLabel.setText(String.valueOf(cumulativeAwayHomers.get(awayPlayerNum)));
+				
 			}
 			else {
-				int tempHomers = cumulativeAwayHomers.get(awayPlayerNum);
-				tempHomers++;
 				homeHomers.set( homePlayerNum, homeHomers.get(homePlayerNum) + 1);
-				cumulativeHomeHomers.set( homePlayerNum, tempHomers); // Update cumulative stat
+				cumulativeHomeHomers.set( homePlayerNum, homeHomers.get(homePlayerNum) + 1);
 				playerAtBatsLabel.setText(String.valueOf(homeAtBats.get((homePlayerNum + 1) % 9)));
 				playerHitsLabel.setText(String.valueOf(homeHits.get((homePlayerNum + 1) % 9)));
 				playerWalksLabel.setText(String.valueOf(homeWalks.get((homePlayerNum + 1) % 9)));
 				playerDoublesLabel.setText(String.valueOf(homeDoubles.get((homePlayerNum + 1) % 9)));
 				playerTriplesLabel.setText(String.valueOf(homeTriples.get((homePlayerNum + 1) % 9)));
 				playerHomersLabel.setText(String.valueOf(homeHomers.get((homePlayerNum + 1) % 9)));
+				
+				cumulativeHomeAtBatsLabel.setText(String.valueOf(cumulativeHomeAtBats.get(homePlayerNum)));
+				cumulativeHomeHitsLabel.setText(String.valueOf(cumulativeHomeHits.get(homePlayerNum)));
+				cumulativeHomeWalksLabel.setText(String.valueOf(cumulativeHomeWalks.get(homePlayerNum)));
+				cumulativeHomeDoublesLabel.setText(String.valueOf(cumulativeHomeDoubles.get(homePlayerNum)));
+				cumulativeHomeTriplesLabel.setText(String.valueOf(cumulativeHomeTriples.get(homePlayerNum)));
+				cumulativeHomeHomersLabel.setText(String.valueOf(cumulativeHomeHomers.get(homePlayerNum)));
+			
 			}
 			
 			addHit(); //Always results in a hit
@@ -562,16 +605,10 @@ public class Assignment6 {
 			if(frameNum % 2 == 0) {
 				int tempHits = awayHits.get(awayPlayerNum);
 				tempHits++;
-				int cumTempHits = cumulativeAwayHits.get(awayPlayerNum);
-				cumTempHits++;
 				awayHits.set( awayPlayerNum, tempHits);
-				cumulativeAwayHits.set( awayPlayerNum, cumTempHits); // update cumulative stat
 			}
 			else {
-				int tempHits = cumulativeHomeHits.get(homePlayerNum);
-				tempHits++;
 				homeHits.set( homePlayerNum, homeHits.get(homePlayerNum) + 1);
-				cumulativeHomeHits.set( homePlayerNum, tempHits); // Update cumulative stat
 			}
 			addHit();//Always results in a hit
 			
@@ -632,29 +669,20 @@ public class Assignment6 {
 			if(frameNum % 2 == 0) {
 				int tempHits = awayHits.get(awayPlayerNum);
 				tempHits++;
-				int cumTempHits = cumulativeAwayHits.get(awayPlayerNum);
-				cumTempHits++;
 				awayHits.set( awayPlayerNum, tempHits);
-				cumulativeAwayHits.set( awayPlayerNum, cumTempHits); // update cumulative stat
+				cumulativeAwayHits.set( awayPlayerNum, cumulativeAwayHits.get(awayPlayerNum)+1);
 			}
 			else {
-				int tempHits = cumulativeHomeHits.get(homePlayerNum);
-				tempHits++;
 				homeHits.set( homePlayerNum, homeHits.get(homePlayerNum) + 1);
-				cumulativeHomeHits.set( homePlayerNum, tempHits); // Update cumulative stat
-				
+				cumulativeHomeHits.set( homePlayerNum, cumulativeHomeHits.get(homePlayerNum) + 1);
 			}
 			if(frameNum % 2 == 0) {
-				int temp = cumulativeAwayDoubles.get(awayPlayerNum);
-				temp++;
 				awayDoubles.set( awayPlayerNum, awayDoubles.get(awayPlayerNum) + 1);
-				cumulativeAwayDoubles.set( awayPlayerNum, temp); // Update cumulative stat
+				cumulativeAwayDoubles.set( awayPlayerNum, cumulativeAwayDoubles.get(awayPlayerNum) + 1);
 			}
 			else {
-				int temp = cumulativeHomeDoubles.get(awayPlayerNum);
-				temp++;
 				homeDoubles.set( homePlayerNum, homeDoubles.get(homePlayerNum) + 1);
-				cumulativeHomeDoubles.set( homePlayerNum, temp); // Update cumulative stat
+				cumulativeHomeDoubles.set( homePlayerNum, homeDoubles.get(homePlayerNum) + 1);
 			}
 			addHit();//Always results in a hit
 			
@@ -718,29 +746,20 @@ public class Assignment6 {
 			if(frameNum % 2 == 0) {
 				int tempHits = awayHits.get(awayPlayerNum);
 				tempHits++;
-				int cumTempHits = cumulativeAwayHits.get(awayPlayerNum);
-				cumTempHits++;
 				awayHits.set( awayPlayerNum, tempHits);
-				cumulativeAwayHits.set( awayPlayerNum, cumTempHits); // update cumulative stat
-				
+				cumulativeAwayHits.set( awayPlayerNum, cumulativeAwayHits.get(awayPlayerNum) + 1);
 			}
 			else {
-				int temp = cumulativeHomeHits.get(homePlayerNum);
-				temp++;
 				homeHits.set( homePlayerNum, homeHits.get(homePlayerNum) + 1);
-				cumulativeHomeHits.set( homePlayerNum, temp); // Update cumulative stat
+				cumulativeHomeHits.set( homePlayerNum, cumulativeHomeHits.get(homePlayerNum) + 1);
 			}
 			if(frameNum % 2 == 0) {
-				int temp = cumulativeAwayTriples.get(awayPlayerNum);
-				temp++;
 				awayTriples.set( awayPlayerNum, awayDoubles.get(awayPlayerNum) + 1);
-				cumulativeAwayTriples.set( awayPlayerNum, temp); // update cumulative
+				cumulativeAwayTriples.set( awayPlayerNum, cumulativeAwayTriples.get(awayPlayerNum) + 1);
 			}
 			else {
-				int temp = cumulativeHomeTriples.get(awayPlayerNum);
-				temp++;
 				homeTriples.set( homePlayerNum, homeDoubles.get(homePlayerNum) + 1);
-				cumulativeHomeTriples.set( homePlayerNum, temp); // update cumulative
+				cumulativeHomeTriples.set( homePlayerNum, cumulativeHomeTriples.get(homePlayerNum) + 1);
 			}
 			addHit();//always results in a hit
 			
@@ -1015,17 +1034,12 @@ public class Assignment6 {
 		case WALK:
 			
 			if(frameNum % 2 == 0) {
-				int temp = cumulativeAwayWalks.get(awayPlayerNum);
-				temp++;
 				awayWalks.set( awayPlayerNum, awayWalks.get(awayPlayerNum) + 1);
-				cumulativeAwayWalks.set( awayPlayerNum, temp); // update cumulative stats
-				
+				cumulativeAwayWalks.set( awayPlayerNum, cumulativeAwayWalks.get(awayPlayerNum) + 1);
 			}
 			else {
-				int temp = cumulativeHomeWalks.get(awayPlayerNum);
-				temp++;
 				homeWalks.set( homePlayerNum, homeWalks.get(homePlayerNum) + 1);
-				cumulativeHomeWalks.set( homePlayerNum, temp); // update cumulative stats
+				cumulativeHomeWalks.set( homePlayerNum, cumulativeHomeWalks.get(homePlayerNum) + 1);
 			}
 			addWalk();//Always results in adding a walk
 			
@@ -2677,37 +2691,23 @@ public class Assignment6 {
 		txtHome.setEditable(false);
 		panel.add(txtHome);
 		
-		
-		
+
 		//start game button begins the game, then disables itself
 				startGameButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						for(int i = 0; i < 9; i++) {
-							homeAtBats.add(0);
-							homeHits.add(0);
-							homeWalks.add(0);
-							homeDoubles.add(0);
-							homeTriples.add(0);
-							homeHomers.add(0);
-							awayAtBats.add(0);
-							awayHits.add(0);
-							awayWalks.add(0);
-							awayDoubles.add(0);
-							awayTriples.add(0);
-							awayHomers.add(0);
-							// test
-							cumulativeHomeAtBats.add(0);
-							cumulativeHomeHits.add(0);
-							cumulativeHomeWalks.add(0);
-							cumulativeHomeDoubles.add(0);
-							cumulativeHomeTriples.add(0);
-							cumulativeHomeHomers.add(0);
-							cumulativeAwayAtBats.add(0);
-							cumulativeAwayHits.add(0);
-							cumulativeAwayWalks.add(0);
-							cumulativeAwayDoubles.add(0);
-							cumulativeAwayTriples.add(0);
-							cumulativeAwayHomers.add(0);
+							homeAtBats.add(i,0);
+							homeHits.add(i,0);
+							homeWalks.add(i,0);
+							homeDoubles.add(i,0);
+							homeTriples.add(i,0);
+							homeHomers.add(i,0);
+							awayAtBats.add(i,0);
+							awayHits.add(i,0);
+							awayWalks.add(i,0);
+							awayDoubles.add(i,0);
+							awayTriples.add(i,0);
+							awayHomers.add(i,0);
 						}
 						
 						startGameButton.setEnabled(false);
@@ -2733,13 +2733,147 @@ public class Assignment6 {
 						HomeNextButton.setEnabled(false);
 						HomeNextButton.setVisible(false);
 						awayAtBats.set(awayPlayerNum, awayAtBats.get(awayPlayerNum)+1);
-						cumulativeAwayAtBats.set(awayPlayerNum, cumulativeAwayAtBats.get(awayPlayerNum)+1);
+						
 						playerAtBatsLabel.setText(String.valueOf(awayAtBats.get(awayPlayerNum)));
 						playerWalksLabel.setText(String.valueOf(awayWalks.get(awayPlayerNum)));
 						playerHitsLabel.setText(String.valueOf(awayHits.get(awayPlayerNum)));
 						playerDoublesLabel.setText(String.valueOf(awayDoubles.get(awayPlayerNum)));
 						playerTriplesLabel.setText(String.valueOf(awayTriples.get(awayPlayerNum)));
 						playerHomersLabel.setText(String.valueOf(awayHomers.get(awayPlayerNum)));
+					
+						JFrame parent = new JFrame();
+						JButton readStats = new JButton();
+						JButton noReadStats = new JButton();
+						JDialog jd = new JDialog(parent);
+						readStats.setText("Read Stats");
+						noReadStats.setText("Or Not");
+						readStats.addActionListener(new java.awt.event.ActionListener() {
+				            @Override
+				            public void actionPerformed(java.awt.event.ActionEvent evt) {
+				            	openHomeStatsFile();
+				                homeStatsProcessor();
+				                openAwayStatsFile();
+				                awayStatsProcessor();
+				                cumulativeAwayAtBats.add(0,cumulativeAwayAtBats.get(0)+1);
+				                
+				                cumulativeAwayAtBatsLabel.setText(String.valueOf(cumulativeAwayAtBats.get(awayPlayerNum)));
+				    			cumulativeAwayHitsLabel.setText(String.valueOf(cumulativeAwayHits.get(awayPlayerNum)));
+				    			cumulativeAwayWalksLabel.setText(String.valueOf(cumulativeAwayWalks.get(awayPlayerNum)));
+				    			cumulativeAwayDoublesLabel.setText(String.valueOf(cumulativeAwayDoubles.get(awayPlayerNum)));
+				    			cumulativeAwayTriplesLabel.setText(String.valueOf(cumulativeAwayTriples.get(awayPlayerNum)));
+				    			cumulativeAwayHomersLabel.setText(String.valueOf(cumulativeAwayHomers.get(awayPlayerNum)));
+				    			
+				    			jd.setVisible(false);
+				            }
+				        });
+						noReadStats.addActionListener(new java.awt.event.ActionListener() {
+				            @Override
+				            public void actionPerformed(java.awt.event.ActionEvent evt) {
+				            	for(int i = 0; i < 9; i++) {
+									cumulativeHomeAtBats.add(i,0);
+									cumulativeHomeHits.add(i,0);
+									cumulativeHomeWalks.add(i,0);
+									cumulativeHomeDoubles.add(i,0);
+									cumulativeHomeTriples.add(i,0);
+									cumulativeHomeHomers.add(i,0);
+									cumulativeAwayAtBats.add(i,0);
+									cumulativeAwayHits.add(i,0);
+									cumulativeAwayWalks.add(i,0);
+									cumulativeAwayDoubles.add(i,0);
+									cumulativeAwayTriples.add(i,0);
+									cumulativeAwayHomers.add(i,0);
+								} 
+				            	cumulativeAwayAtBats.add(0,1);
+					                
+					             cumulativeAwayAtBatsLabel.setText(String.valueOf(cumulativeAwayAtBats.get(awayPlayerNum)));
+					             cumulativeAwayHitsLabel.setText(String.valueOf(cumulativeAwayHits.get(awayPlayerNum)));
+					    		 cumulativeAwayWalksLabel.setText(String.valueOf(cumulativeAwayWalks.get(awayPlayerNum)));
+					    		 cumulativeAwayDoublesLabel.setText(String.valueOf(cumulativeAwayDoubles.get(awayPlayerNum)));
+					    		 cumulativeAwayTriplesLabel.setText(String.valueOf(cumulativeAwayTriples.get(awayPlayerNum)));
+					    		 cumulativeAwayHomersLabel.setText(String.valueOf(cumulativeAwayHomers.get(awayPlayerNum)));
+					    			
+				            	jd.setVisible(false);        
+				            }
+				        });
+						jd.setLayout(new FlowLayout());
+						jd.setBounds(500,500,500,500);
+						jd.add(readStats);
+						jd.add(noReadStats);
+						jd.setVisible(true);
+						
+						
+						
+						JFrame parent2 = new JFrame();
+						JButton enterNames = new JButton();
+						JButton notEnter = new JButton();
+						JDialog jd2 = new JDialog(parent2);
+						
+						enterNames.setText("Enter Names");
+						notEnter.setText("Or Not");
+						
+						
+						enterNames.addActionListener(new java.awt.event.ActionListener() {
+				            @Override
+				            public void actionPerformed(java.awt.event.ActionEvent evt) {
+				            	ArrayList<JLabel> playerNames = new ArrayList<JLabel>();
+				            	playerNames.add(awayPlayer1);
+				            	playerNames.add(awayPlayer2);
+				            	playerNames.add(awayPlayer3);
+				            	playerNames.add(awayPlayer4);
+				            	playerNames.add(awayPlayer5);
+				            	playerNames.add(awayPlayer6);
+				            	playerNames.add(awayPlayer7);
+				            	playerNames.add(awayPlayer8);
+				            	playerNames.add(awayPlayer9);
+				            	playerNames.add(homePlayer1);
+				            	playerNames.add(homePlayer2);
+				            	playerNames.add(homePlayer3);
+				            	playerNames.add(homePlayer4);
+				            	playerNames.add(homePlayer5);
+				            	playerNames.add(homePlayer6);
+				            	playerNames.add(homePlayer7);
+				            	playerNames.add(homePlayer8);
+				            	playerNames.add(homePlayer9);
+				            	
+				            	for(int i = 0; i < 9; i++) {
+				            		String name = JOptionPane.showInputDialog(null, "Enter away player " + String.valueOf(i+1)+" name ");
+				            		if(name != null) {
+				            		playerNames.get(i).setText(name);
+				            	
+				            		}
+				            		else {
+				            			break;
+				            		}
+				            	}
+				            	for(int i = 9; i < 18; i++) {
+				            		String name = JOptionPane.showInputDialog(null, "Enter home player " + String.valueOf(i%9+1)+" name ");
+				            		if(name != null) {
+				            		playerNames.get(i).setText(name);
+				            	
+				            		}
+				            		else {
+				            			break;
+				            		}
+				            	}
+				            	jd2.setVisible(false);
+				            }
+				        });
+						notEnter.addActionListener(new java.awt.event.ActionListener() {
+				            @Override
+				            public void actionPerformed(java.awt.event.ActionEvent evt) {
+				            	
+				            	jd2.setVisible(false);        
+				            }
+				        });
+						
+						
+						
+						
+						jd2.setLayout(new FlowLayout());
+						jd2.setBounds(500,500,500,500);
+						jd2.add(enterNames);
+						jd2.add(notEnter);
+						jd2.setVisible(true);
 					}
 				});
 				startGameButton.setBounds(202, 493, 123, 29);
@@ -2748,7 +2882,7 @@ public class Assignment6 {
 		//Away next button only appears when it is the away half-inning, it calls the next function
 		AwayNextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				RestartButton.setVisible(true);
 				next();//call next
 				
 				//disable and hide one button while enabling and showing the other
@@ -2825,7 +2959,11 @@ public class Assignment6 {
 		HomeNextButton.setBounds(651, 493, 117, 29);
 		frame.getContentPane().add(HomeNextButton);		
 		
-		JButton RestartButton = new JButton("Restart");
+		
+		
+		
+		
+		RestartButton.setVisible(false);
 		RestartButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -2853,7 +2991,8 @@ public class Assignment6 {
 				homePlayersPanels.get(homePlayerNum).setBackground(Color.black);
 				awayPlayers.get(awayPlayerNum).setForeground(Color.cyan);
 				awayPlayersPanels.get(awayPlayerNum).setBackground(Color.black);
-				
+				awayPlayerNum = 0;
+				homePlayerNum = 0;
 				//Set all per inning scores back to null
 				awayInning1.setText(null);
 				homeInning1.setText(null);
@@ -2914,6 +3053,54 @@ public class Assignment6 {
 				awayInning9.setText("");
 				homeInning9.setText("");
 				
+				for(int i = 0; i < 9; i++) {
+					homeAtBats.add(i,0);
+					homeHits.add(i,0);
+					homeWalks.add(i,0);
+					homeDoubles.add(i,0);
+					homeTriples.add(i,0);
+					homeHomers.add(i,0);
+					awayAtBats.add(i,0);
+					awayHits.add(i,0);
+					awayWalks.add(i,0);
+					awayDoubles.add(i,0);
+					awayTriples.add(i,0);
+					awayHomers.add(i,0);
+				}
+				for(int i = 0; i < 9; i++) {
+					cumulativeHomeAtBats.add(i,0);
+					cumulativeHomeHits.add(i,0);
+					cumulativeHomeWalks.add(i,0);
+					cumulativeHomeDoubles.add(i,0);
+					cumulativeHomeTriples.add(i,0);
+					cumulativeHomeHomers.add(i,0);
+					cumulativeAwayAtBats.add(i,0);
+					cumulativeAwayHits.add(i,0);
+					cumulativeAwayWalks.add(i,0);
+					cumulativeAwayDoubles.add(i,0);
+					cumulativeAwayTriples.add(i,0);
+					cumulativeAwayHomers.add(i,0);
+				} 
+				cumulativeHomeAtBatsLabel.setText("");
+				cumulativeHomeHitsLabel.setText("");
+				cumulativeHomeWalksLabel.setText("");
+				cumulativeHomeDoublesLabel.setText("");
+				cumulativeHomeTriplesLabel.setText("");
+				cumulativeHomeHomersLabel.setText("");
+			
+				cumulativeAwayAtBats.add(0,1);
+				
+				cumulativeAwayAtBatsLabel.setText(String.valueOf(cumulativeAwayAtBats.get(awayPlayerNum)));
+	            cumulativeAwayHitsLabel.setText(String.valueOf(cumulativeAwayHits.get(awayPlayerNum)));
+	    		cumulativeAwayWalksLabel.setText(String.valueOf(cumulativeAwayWalks.get(awayPlayerNum)));
+	    		cumulativeAwayDoublesLabel.setText(String.valueOf(cumulativeAwayDoubles.get(awayPlayerNum)));
+	    		cumulativeAwayTriplesLabel.setText(String.valueOf(cumulativeAwayTriples.get(awayPlayerNum)));
+	    		cumulativeAwayHomersLabel.setText(String.valueOf(cumulativeAwayHomers.get(awayPlayerNum)));
+	    			
+				
+				awayAtBats.add(1,0);
+				
+				
 				//Set more stuff back to 0
 				frameNum = 0;
 				awayPlayerNum = 0;
@@ -2925,14 +3112,157 @@ public class Assignment6 {
 				base2 = false;
 				base3 = false;
 				
+				txtBase1.setForeground(Color.CYAN);
+				txtBase1.setBackground(Color.BLACK);
+				txtBase2.setForeground(Color.CYAN);
+				txtBase2.setBackground(Color.BLACK);
+				txtBase3.setForeground(Color.CYAN);
+				txtBase3.setBackground(Color.BLACK);
+				txtHome.setForeground(Color.CYAN);
+				txtHome.setBackground(Color.BLACK);
+				
 				//Set next buttons the correct way
 				AwayNextButton.setEnabled(true);
 				AwayNextButton.setVisible(true);
 				HomeNextButton.setEnabled(false);
 				HomeNextButton.setVisible(false);
+				RestartButton.setVisible(false);
 			}
 		});
 		RestartButton.setBounds(435, 494, 117, 29);
 		frame.getContentPane().add(RestartButton);
 	}
+
+	public static void openAwayStatsFile(){
+	      try{
+	         File f1 = new File("./awayStats.txt");
+	         lineCounter = new Scanner(f1);
+	         input = new Scanner(f1);
+	      }
+	      catch(Exception e){ //"wider net" of exception handling, FileNotFoundException
+	         System.err.println("Error opening file.  Terminating.");
+	         System.exit(1);
+	      }
+	}
+	
+	public static void openHomeStatsFile(){
+	      try{
+	         File f1 = new File("./homeStats.txt");
+	         lineCounter = new Scanner(f1);
+	         input = new Scanner(f1);
+	      }
+	      catch(Exception e){ //"wider net" of exception handling, FileNotFoundException
+	         System.err.println("Error opening file.  Terminating.");
+	         System.exit(1);
+	      }
+	}
+	
+	public void awayStatsProcessor() {
+		int numLines = 0; //checks number of lines in file
+	      while(lineCounter.hasNextLine()){
+	         lineCounter.nextLine();
+	         numLines++;
+	      }
+		try {
+			for(int i = 0; i < numLines; i++) {
+				cumulativeAwayAtBats.add(i,input.nextInt());
+				cumulativeAwayHits.add(i, input.nextInt());
+				cumulativeAwayDoubles.add(i, input.nextInt());
+				cumulativeAwayTriples.add(i, input.nextInt());
+				cumulativeAwayWalks.add(i, input.nextInt());
+				cumulativeAwayHomers.add(i, input.nextInt());
+			}
+			
+		
+		}
+		catch(Exception e) {
+			System.out.println("Processing of file failed. ");
+			
+		}
+		finally {
+			input.close();
+		}
+	}
+	public void homeStatsProcessor() {
+		int numLines = 0; //checks number of lines in file
+	      while(lineCounter.hasNextLine()){
+	         lineCounter.nextLine();
+	         numLines++;
+	      }
+		try {
+			for(int i = 0; i < numLines; i++) {
+				cumulativeHomeAtBats.add(i,input.nextInt());
+				cumulativeHomeHits.add(i, input.nextInt());
+				cumulativeHomeDoubles.add(i, input.nextInt());
+				cumulativeHomeTriples.add(i, input.nextInt());
+				cumulativeHomeWalks.add(i, input.nextInt());
+				cumulativeHomeHomers.add(i, input.nextInt());
+			}
+			
+		
+		}
+		catch(Exception e) {
+			System.out.println("Processing of file failed. ");
+			
+		}
+		finally {
+			input.close();
+		}
+	}
+	
+	public void outputCumulativeAway() {
+		try {
+				
+		      FileWriter myWriter = new FileWriter("cumulAway.txt");
+		      for(int i = 0; i < 9; i++) {
+		    	  myWriter.write(String.valueOf(cumulativeAwayAtBats.get(i)));
+		    	  myWriter.write(" ");
+		    	  myWriter.write(String.valueOf(cumulativeAwayHits.get(i)));
+		    	  myWriter.write(" ");
+		    	  myWriter.write(String.valueOf(cumulativeAwayDoubles.get(i)));
+		    	  myWriter.write(" ");
+		    	  myWriter.write(String.valueOf(cumulativeAwayTriples.get(i)));
+		    	  myWriter.write(" ");
+		    	  myWriter.write(String.valueOf(cumulativeAwayWalks.get(i)));
+		    	  myWriter.write(" ");
+		    	  myWriter.write(String.valueOf(cumulativeAwayHomers.get(i)));
+		    	  myWriter.write("\n");
+		      }
+		      myWriter.close();
+		}
+		catch (Exception e) {
+			System.out.println("Error in writing to file");
+		}
+	
+		
+	}
+	
+	public void outputCumulativeHome() {
+		try {
+			
+		      FileWriter myWriter = new FileWriter("cumulHome.txt");
+		      for(int i = 0; i < 9; i++) {
+		    	  myWriter.write(String.valueOf(cumulativeHomeAtBats.get(i)));
+		    	  myWriter.write(" ");
+		    	  myWriter.write(String.valueOf(cumulativeHomeHits.get(i)));
+		    	  myWriter.write(" ");
+		    	  myWriter.write(String.valueOf(cumulativeHomeDoubles.get(i)));
+		    	  myWriter.write(" ");
+		    	  myWriter.write(String.valueOf(cumulativeHomeTriples.get(i)));
+		    	  myWriter.write(" ");
+		    	  myWriter.write(String.valueOf(cumulativeHomeWalks.get(i)));
+		    	  myWriter.write(" ");
+		    	  myWriter.write(String.valueOf(cumulativeHomeHomers.get(i)));
+		    	  myWriter.write("\n");
+		      }
+		      myWriter.close();
+		}
+		catch (Exception e) {
+			System.out.println("Error in writing to file");
+		}
+	
+	}
+	
+
+
 }
